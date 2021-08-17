@@ -41,4 +41,12 @@ class Posts extends Controller
     public function get_post(Request $request) {
 
     }
+
+    public function edit_post(Request $request) {
+
+    }
+
+    public function delete_post(Request $request) {
+
+    }
 }
