@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Posts;
+use App\Http\Controllers\Comments;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +45,7 @@ Route::post('/endpoint/compose', [Posts::class, 'new_post']);
 
 Route::post('/endpiont/edit_post', [Posts::class, 'edit_post']);
 
-Rout::post('/endpiont/delete_post' [Posts::class, 'delete_post']);
+Route::post('/endpiont/delete_post', [Posts::class, 'delete_post']);
 
 Route::post('/endpoint/create_comment', [Comments::class, 'new_comment']);
 
