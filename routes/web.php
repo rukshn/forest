@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Post;
+use App\Http\Controllers\Posts;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +38,18 @@ Route::get('/compose', function() {
     return view('compose');
 })->middleware(['auth'])->name('compose');
 
-Route::get('/post/{id}', [Post::class, 'get_post']);
+Route::get('/post/{id}', [Posts::class, 'get_post'])->name('post');
+
+Route::post('/endpoint/compose', [Posts::class, 'new_post']);
+
+Route::post('/endpiont/edit_post', [Posts::class, 'edit_post']);
+
+Rout::post('/endpiont/delete_post' [Posts::class, 'delete_post']);
+
+Route::post('/endpoint/create_comment', [Comments::class, 'new_comment']);
+
+Route::post('/endpoint/edit_comment', [Comments::class, 'edit_comment']);
+
+Route::post('/endpoint/delete_comment', [Comments::class, 'delete_comment']);
 
 require __DIR__.'/auth.php';
