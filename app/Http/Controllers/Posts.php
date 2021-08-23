@@ -49,7 +49,7 @@ class Posts extends Controller
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
-            ->select('post_meta.category',
+            ->select('post_meta.category_id',
                 'post_status.status_id',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
@@ -88,7 +88,7 @@ class Posts extends Controller
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
-            ->select('post_meta.category',
+            ->select('post_meta.category_id',
                 'post_status.status_id as status_code',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
@@ -106,7 +106,7 @@ class Posts extends Controller
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
-            ->select('post_meta.category',
+            ->select('post_meta.category_id',
                 'post_status.status_id as status_code',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
@@ -124,7 +124,7 @@ class Posts extends Controller
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
-            ->select('post_meta.category',
+            ->select('post_meta.category_id',
                 'post_status.status_id as status_code',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
@@ -144,7 +144,7 @@ class Posts extends Controller
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users','users.id', '=', 'posts.created_by')
             ->select(DB::table('comments')->where('comments.post_id', 'posts.id')->count())
-            ->select('post_meta.category',
+            ->select('post_meta.category_id',
                     'post_status.status_id as status_code',
                     'status_codes.status_name as status_name', 'status_codes.color as status_color',
                     'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
