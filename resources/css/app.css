@@ -1,3 +1,26 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+.content h1 {
+    @apply text-2xl;
+    @apply font-bold;
+}
+
+.content  h2 {
+    @apply text-xl;
+    @apply font-bold;
+}
+
+.content ol {
+    @apply list-item;
+    @apply relative;
+    @apply left-8;
+}
+
+.content ul {
+    @apply list-disc;
+    @apply relative;
+    @apply left-8;
+}

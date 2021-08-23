@@ -17,7 +17,7 @@ class CreatePostStatusTable extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('post_id');
-            $table->integer('status');
+            $table->integer('status_id');
         });
     }
 

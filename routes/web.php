@@ -19,21 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [Posts::class, 'get_feed'])->middleware(['auth'])->name('dashboard');
 
-Route::get('/issues', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('issues');
+Route::get('/issues', [Posts::class, 'get_posts_by_issues'])->middleware(['auth'])->name('issues');
 
-Route::get('/tasks', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('tasks');
+Route::get('/tasks', [Posts::class, 'get_posts_by_tasks'])->middleware(['auth'])->name('tasks');
 
-Route::get('/milestones', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('milestones');
+Route::get('/milestones', [Posts::class, 'get_posts_by_milestones'])->middleware(['auth'])->name('milestones');
 
 Route::get('/compose', function() {
     return view('compose');
@@ -47,10 +39,16 @@ Route::post('/endpiont/edit_post', [Posts::class, 'edit_post']);
 
 Route::post('/endpiont/delete_post', [Posts::class, 'delete_post']);
 
-Route::post('/endpoint/create_comment', [Comments::class, 'new_comment']);
+Route::post('/endpoint/create_comment', [Comments::class, 'create_comment']);
 
 Route::post('/endpoint/edit_comment', [Comments::class, 'edit_comment']);
 
 Route::post('/endpoint/delete_comment', [Comments::class, 'delete_comment']);
+
+Route::post('/endpoint/change_status', [Posts::class, 'change_status']);
+
+Route::post('/endpoint/asign_user', [Posts::class, 'asign_user']);
+
+Route::post('/endpoint/unasign_user', [Posts::class, 'unasign_user']);
 
 require __DIR__.'/auth.php';
