@@ -94,7 +94,8 @@ class Posts extends Controller
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                 'posts.title as post_title', 'posts.created_at as post_date', 'posts.id as post_id',
-                'users.name as user_name', 'users.id as user_id')
+                'users.name as user_name', 'users.id as user_id',
+                DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
             ->get();
 
         return view('dashboard', ['feed' => $feed_posts]);
@@ -113,7 +114,8 @@ class Posts extends Controller
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                 'posts.title as post_title', 'posts.created_at as post_date', 'posts.id as post_id',
-                'users.name as user_name', 'users.id as user_id')
+                'users.name as user_name', 'users.id as user_id',
+                DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
             ->get();
 
         return view('dashboard', ['feed' => $feed_posts]);
@@ -132,30 +134,31 @@ class Posts extends Controller
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                 'posts.title as post_title', 'posts.created_at as post_date', 'posts.id as post_id',
-                'users.name as user_name', 'users.id as user_id')
+                'comments.id as comment_count',
+                'users.name as user_name', 'users.id as user_id',
+                DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
             ->get();
 
         return view('dashboard', ['feed' => $feed_posts]);
     }
 
     public function get_feed(Request $request) {
+
         $feed_posts = DB::table('posts')
             ->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
-            ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users','users.id', '=', 'posts.created_by')
-            ->select(DB::table('comments')->where('comments.post_id', 'posts.id')->count())
             ->select('post_meta.category_id',
                     'post_status.status_id as status_code',
                     'status_codes.status_name as status_name', 'status_codes.color as status_color',
                     'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                     'posts.title as post_title', 'posts.created_at as post_date', 'posts.id as post_id',
-                    'comments.id as comment_count',
-                    'users.name as user_name', 'users.id as user_id')->limit(50)->get();
+                    'users.name as user_name', 'users.id as user_id',
+                    DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
+            ->limit(50)->get();
 
-        // return json_encode($feed_posts);
         return view('dashboard', ['feed' => $feed_posts]);
 
     }
