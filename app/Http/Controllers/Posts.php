@@ -35,7 +35,7 @@ class Posts extends Controller
 
             $post_meta = new PostMetaModel;
             $post_meta->post_id = $new_post->id;
-            $post_meta->category = $request->category;
+            $post_meta->category_id = $request->category;
             $post_meta->save();
 
             return redirect()->route('post', ['id' => $new_post->id]);
@@ -47,7 +47,7 @@ class Posts extends Controller
             ->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
-            ->join('categories', 'post_meta.category', '=', 'categories.id')
+            ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
             ->select('post_meta.category',
                 'post_status.status_id',
@@ -83,7 +83,7 @@ class Posts extends Controller
     public function get_posts_by_milestones(Request $request)
     {
         $feed_posts = DB::table('categories')->where('categories.id', 3)
-            ->join('post_meta', 'categories.id', '=', 'post_meta.category')
+            ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
@@ -101,7 +101,7 @@ class Posts extends Controller
 
     public function get_posts_by_tasks(Request $request) {
         $feed_posts = DB::table('categories')->where('categories.id', 2)
-            ->join('post_meta', 'categories.id', '=', 'post_meta.category')
+            ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
@@ -119,7 +119,7 @@ class Posts extends Controller
 
     public function get_posts_by_issues(Request $request) {
         $feed_posts = DB::table('categories')->where('categories.id', 1)
-            ->join('post_meta', 'categories.id', '=', 'post_meta.category')
+            ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
@@ -141,7 +141,7 @@ class Posts extends Controller
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->leftJoin('comments', 'comments.post_id', '=', 'posts.id')
-            ->join('categories', 'post_meta.category', '=', 'categories.id')
+            ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users','users.id', '=', 'posts.created_by')
             ->select(DB::table('comments')->where('comments.post_id', 'posts.id')->count())
             ->select('post_meta.category',
