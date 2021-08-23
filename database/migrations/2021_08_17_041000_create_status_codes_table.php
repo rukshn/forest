@@ -19,6 +19,7 @@ class CreateStatusCodesTable extends Migration
             $table->timestamps();
             $table->string('status_name');
             $table->string('color');
+            $table->string('slug');
         });
 
         $basic_status = array(
