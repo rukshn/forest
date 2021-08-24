@@ -24,6 +24,9 @@
                     <x-nav-link :href="route('milestones')" :active="request()->routeIs('milestones')">
                         {{ __('⛳️ Milestones') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
+                        {{ __('🧑‍💻 My Profile') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
                         {{ __('✍️ New Post') }}
                     </x-nav-link>
@@ -46,6 +49,9 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('team')">
+                                {{ __('Team') }}
+                        </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
