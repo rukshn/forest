@@ -82,9 +82,34 @@
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
+            <div class="px-4 space-y-3">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('🚧 Feed') }}
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('issues')" :active="request()->routeIs('issues')">
+                        {{ __('👾 Issues') }}
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
+                        {{ __('🧤 Tasks') }}
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('milestones')" :active="request()->routeIs('milestones')">
+                        {{ __('⛳️ Milestones') }}
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
+                        {{ __('✍️ New Post') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">

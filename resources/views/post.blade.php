@@ -14,22 +14,22 @@
                         {{ Session::get('message') }}
                     </x-message>
                     @endif
-                    <div class="grid grid-cols-12 gap-4">
+                    <div class="lg:grid lg:grid-cols-12 lg:gap-4">
                         <div class="py-2 space-y-1 col-span-9">
                             <h1 class="text-3xl font-bold">{{ $post->post_title }}</h1>
                             <p class="text-sm font-light text-gray-500">{{ $post->user_name }} {{ $post->created_at}}</p>
                             <div class="content px-3 py-4" x-ref="postContent" x-html='parseMarkdown(@json($post->post_content))'></div>
                         </div>
-                        <div class="col-span-3">
-                            <div>
-                                <h3 class="text-gray-500 mb-2">Tags</h3>
+                        <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-3 flex lg:block">
+                            <div class="space-y-3">
+                                <h3 class="text-gray-500">Tags</h3>
                                 <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
                                     style="background-color: #{{$post->category_color}}">{{ $post->category_name }}</span>
                                 <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
                                     style="background-color: #{{$post->status_color}}">{{ $post->status_name }}</span>
                             </div>
-                            <div>
-                                <h3 class="text-gray-500 mt-3 mb-2">Assigned to</h3>
+                            <div class="space-y-3">
+                                <h3 class="text-gray-500">Assigned to</h3>
                                 @foreach ($asigns as $asign)
                                     <sapn id="as-user-{{ $loop->index }}" class="group rounded-md bg-gray-200 text-gray-600 px-2 py-1 space-x-2 space-y-2">
                                         {{ $asign->user_name }}
