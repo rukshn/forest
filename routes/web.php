@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Posts;
 use App\Http\Controllers\Comments;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Team;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,6 +54,10 @@ Route::post('/endpoint/asign_user', [Posts::class, 'asign_user'])->middleware(['
 Route::post('/endpoint/unasign_user', [Posts::class, 'unasign_user'])->middleware(['auth']);
 
 Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
+
+Route::get('/team', [Team::class, 'index'])->middleware(['auth'])->name('team');
+
+Route::get('/user/{id}', [UserController::class, 'user'])->middleware(['auth'])->name('user');
 
 require __DIR__.'/auth.php';
 
