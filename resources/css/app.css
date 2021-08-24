@@ -8,7 +8,7 @@
     @apply font-bold;
 }
 
-.content  h2 {
+.content h2 {
     @apply text-xl;
     @apply font-bold;
 }
@@ -23,4 +23,8 @@
     @apply list-disc;
     @apply relative;
     @apply left-8;
+}
+
+.content p {
+    @apply mb-2;
 }
