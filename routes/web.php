@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Posts;
 use App\Http\Controllers\Comments;
-
+use App\Http\Controllers\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,24 +31,26 @@ Route::get('/compose', function() {
     return view('compose');
 })->middleware(['auth'])->name('compose');
 
-Route::get('/post/{id}', [Posts::class, 'get_post'])->name('post');
+Route::get('/post/{id}', [Posts::class, 'get_post'])->middleware(['auth'])->name('post');
 
-Route::post('/endpoint/compose', [Posts::class, 'new_post']);
+Route::post('/endpoint/compose', [Posts::class, 'new_post'])->middleware(['auth']);
 
-Route::post('/endpiont/edit_post', [Posts::class, 'edit_post']);
+Route::post('/endpiont/edit_post', [Posts::class, 'edit_post'])->middleware(['auth']);
 
-Route::post('/endpiont/delete_post', [Posts::class, 'delete_post']);
+Route::post('/endpiont/delete_post', [Posts::class, 'delete_post'])->middleware(['auth']);
 
-Route::post('/endpoint/create_comment', [Comments::class, 'create_comment']);
+Route::post('/endpoint/create_comment', [Comments::class, 'create_comment'])->middleware(['auth']);
 
-Route::post('/endpoint/edit_comment', [Comments::class, 'edit_comment']);
+Route::post('/endpoint/edit_comment', [Comments::class, 'edit_comment'])->middleware(['auth']);
 
-Route::post('/endpoint/delete_comment', [Comments::class, 'delete_comment']);
+Route::post('/endpoint/delete_comment', [Comments::class, 'delete_comment'])->middleware(['auth']);
 
-Route::post('/endpoint/change_status', [Posts::class, 'change_status']);
+Route::post('/endpoint/change_status', [Posts::class, 'change_status'])->middleware(['auth']);
 
-Route::post('/endpoint/asign_user', [Posts::class, 'asign_user']);
+Route::post('/endpoint/asign_user', [Posts::class, 'asign_user'])->middleware(['auth']);
 
-Route::post('/endpoint/unasign_user', [Posts::class, 'unasign_user']);
+Route::post('/endpoint/unasign_user', [Posts::class, 'unasign_user'])->middleware(['auth']);
+
+Route::post('/user', [Posts::class, 'index'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
