@@ -32,8 +32,8 @@
                                 <h3 class="text-gray-500">Assigned to</h3>
                                 @foreach ($asigns as $asign)
                                     <sapn id="as-user-{{ $loop->index }}" class="group rounded-md bg-gray-200 text-gray-600 px-2 py-1 space-x-2 space-y-2">
-                                        {{ $asign->user_name }}
-                                        <button @click="removeUser({{ $loop->index }}, {{ $asign->user_id }}, {{ $post->post_id }})" class="px-1 opacity-0 group-hover:opacity-100"><i class="bi bi-trash"></i></button>
+                                        <a href="/user/{{$asign->user_id}}">{{ $asign->user_name }}</a>
+                                        <button @click="removeUser({{ $loop->index }}, {{ $asign->user_id }}, {{ $post->post_id }})" class="px-1 opacity-0 group-hover:opacity-100 hover:text-red-700"><i class="bi bi-trash"></i></button>
                                     </span>
                                 @endforeach
                             </div>
