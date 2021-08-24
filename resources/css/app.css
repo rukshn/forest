@@ -25,6 +25,6 @@
     @apply left-8;
 }
 
-.content p {
+.content p:not(:last-of-type) {
     @apply mb-2;
 }

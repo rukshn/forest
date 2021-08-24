@@ -32149,7 +32149,7 @@ select{
   left: 2rem;
 }
 
-.content p {
+.content p:not(:last-of-type) {
   margin-bottom: 0.5rem;
 }
 
