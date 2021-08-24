@@ -134,7 +134,6 @@ class Posts extends Controller
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                 'posts.title as post_title', 'posts.created_at as post_date', 'posts.id as post_id',
-                'comments.id as comment_count',
                 'users.name as user_name', 'users.id as user_id',
                 DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
             ->get();
