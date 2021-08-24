@@ -98,7 +98,7 @@
                         @endif
                     </h4>
                     <div class="px-6 py-3 bg-white border-b border-gray-200 space-y-1">
-                        <div class="my-2" x-html='parseMarkdown(@json($comment->comment))'></div>
+                        <div class="my-2 content" x-html='parseMarkdown(@json($comment->comment))'></div>
                     </div>
                 </div>
             </div>
