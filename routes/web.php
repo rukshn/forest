@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Posts;
 use App\Http\Controllers\Comments;
-use App\Http\Controllers\User;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,6 +51,7 @@ Route::post('/endpoint/asign_user', [Posts::class, 'asign_user'])->middleware(['
 
 Route::post('/endpoint/unasign_user', [Posts::class, 'unasign_user'])->middleware(['auth']);
 
-Route::post('/user', [Posts::class, 'index'])->middleware(['auth']);
+Route::get('/profile', [UserController::class, 'index'])->middleware(['auth'])->name('profile');
 
 require __DIR__.'/auth.php';
+
