@@ -32131,7 +32131,7 @@ select{
   font-weight: 700;
 }
 
-.content  h2 {
+.content h2 {
   font-size: 1.25rem;
   line-height: 1.75rem;
   font-weight: 700;
@@ -32147,6 +32147,10 @@ select{
   list-style-type: disc;
   position: relative;
   left: 2rem;
+}
+
+.content p {
+  margin-bottom: 0.5rem;
 }
 
 @media (min-width: 640px){
