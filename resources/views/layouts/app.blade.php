@@ -12,7 +12,8 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="/logo.svg">
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
