@@ -123,11 +123,11 @@
                 .then((data) => {
                     vm.loading = false
                     data.forEach(task => {
-                        if (task.status_code_id === 1) {
+                        if (task.status_code_id == 1) {
                             vm.todo.push(task)
-                        } else if (task.status_code_id === 2) {
+                        } else if (task.status_code_id == 2) {
                             vm.inprogress.push(task)
-                        } else if (task.status_code_id === 3) {
+                        } else if (task.status_code_id == 3) {
                             vm.done.push(task)
                         }
                     })
