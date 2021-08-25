@@ -5,6 +5,7 @@ use App\Http\Controllers\Posts;
 use App\Http\Controllers\Comments;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Team;
+use App\Http\Controllers\Kanban;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,6 +61,12 @@ Route::get('/team', [Team::class, 'index'])->middleware(['auth'])->name('team');
 Route::get('/user/{id}', [UserController::class, 'user'])->middleware(['auth'])->name('user');
 
 Route::get('/tasks/kanban', [Posts::class, 'kanban'])->middleware(['auth'])->name('kanban');
+
+Route::get('/endpoint/kanban/tasks', [Kanban::class, 'tasks'])->middleware(['auth']);
+
+Route::post('/endpoint/kanban/beginTask', [Kanban::class, 'beginTask'])->middleware(['auth']);
+
+Route::post('/endpoint/kanban/completeTask', [Kanban::class, 'completeTask'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 

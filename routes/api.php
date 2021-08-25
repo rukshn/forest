@@ -18,7 +18,3 @@ use App\Http\Controllers\Kanban;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('/kanban/tasks', [Kanban::class, 'tasks'])->middleware(['api']);
-
-Route::post('/kanban/beginTask', [Kanban::class, 'beginTask'])->middleware(['api']);
