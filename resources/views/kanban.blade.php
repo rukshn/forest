@@ -4,24 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="py-6 px-8" x-init="init" x-data="
-    {
-      tasks: [],
-      todo: [],
-      inprogress: [],
-      done: [],
-      loading: true,
-      beginTask(item, index) {
-        const task = this.todo[index]
-        this.todo.splice(index,1)
-        this.inprogress.push(task)
-      },
-      completeTask(item,index) {
-        const task = this.inprogress[index]
-        this.inprogress.splice(index,1)
-        this.done.push(task)
-      }
-    }">
+    <div class="py-6 px-8" x-init="init" x-data="kanbanApp()">
         <div class="grid grid-cols-3 gap-6">
             <div class="space-y-4">
                 <h1 class="text-xl text-center font-bold">Todo</h1>
@@ -29,7 +12,7 @@
                     <div class="rounded-md shadow-md px-6 py-4 bg-white">
                         <div class="grid grid-cols-8">
                             <div class="col-span-1">
-                                <button @click="beginTask(task.task_id, index)"
+                                <button @click="beginTask(task.post_id, index, task.post_status_id)"
                                     class="rounded-md px-2 py-1 bg-gray-200 font-bold text-gray-400 hover:text-gray-500">
                                     <i class="bi bi-check-circle-fill"></i>
                                 </button>
@@ -56,7 +39,7 @@
                     <div class="rounded-md shadow-md px-6 py-4 bg-white">
                         <div class="grid grid-cols-8">
                             <div class="col-span-1">
-                                <button @click="completeTask(task.task_id, index)"
+                                <button @click="completeTask(task.post_id, index, task.post_status_id)"
                                     class="rounded-md px-2 py-1 bg-green-100 font-bold text-green-400 hover:text-green-500">
                                     <i class="bi bi-check-circle-fill"></i>
                                 </button>
@@ -105,15 +88,15 @@
             </div>
           </div>
           <template x-if="loading === true">
-              <div class="bg-purple-200 rounded-md shadow-md py-4 max-w-6xl mx-auto">
-                  <h1 class="text-center">Loading Kanban View</h1>
+              <div class="bg-purple-200 rounded-md shadow-md py-4 max-w-6xl my-6 mx-auto">
+                  <h1 class="text-center" x-text="notification_message"></h1>
               </div>
           </template>
     </div>
     <script>
         function init() {
             const vm = this
-            fetch('/api/kanban/tasks', {
+            fetch('/endpoint/kanban/tasks', {
                     method: 'GET',
                     headers: {
                         Accept: 'application/json'
@@ -132,10 +115,68 @@
                         }
                     })
                 })
+                .catch((e) => {
+                  vm.notification_message = "Error loading Kanban"
+                })
         }
 
         function bindLink(id) {
             return `/post/${id}`
+        }
+
+        function kanbanApp() {
+          return {
+            tasks: [],
+            todo: [],
+            inprogress: [],
+            done: [],
+            loading: true,
+            notification_message: "Loading Kanban Board",
+            beginTask(item, index, post_status_id) {
+              const task = this.todo[index]
+              this.todo.splice(index,1)
+              this.inprogress.push(task)
+
+              fetch('/endpoint/kanban/beginTask', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json',
+                  'accept': 'application/json',
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                  post_id: item,
+                  post_status_id,
+                })
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data)
+              })
+            },
+            completeTask(item,index, post_status_id) {
+              const task = this.inprogress[index]
+              this.inprogress.splice(index,1)
+              this.done.push(task)
+
+              fetch('/endpoint/kanban/completeTask', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json',
+                  'accept': 'application/json',
+                  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                  post_id: item,
+                  post_status_id
+                })
+              })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log(data)
+              })
+            },
+          }
         }
 
     </script>
