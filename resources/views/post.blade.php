@@ -17,8 +17,10 @@
                     <div class="lg:grid lg:grid-cols-12 lg:gap-4">
                         <div class="py-2 space-y-1 col-span-9">
                             <h1 class="text-3xl font-bold">{{ $post->post_title }}</h1>
-                            <p class="text-sm font-light text-gray-500">{{ $post->user_name }} {{ $post->created_at}}</p>
-                            <div class="content px-3 py-4" x-ref="postContent" x-html='parseMarkdown(@json($post->post_content))'></div>
+                            <p class="text-sm font-light text-gray-500">{{ $post->user_name }} {{ $post->created_at}}
+                            </p>
+                            <div class="content px-3 py-4" x-ref="postContent"
+                                x-html='parseMarkdown(@json($post->post_content))'></div>
                         </div>
                         <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-3 flex lg:block">
                             <div class="space-y-3">
@@ -31,10 +33,15 @@
                             <div class="space-y-3">
                                 <h3 class="text-gray-500">Assigned to</h3>
                                 @foreach ($asigns as $asign)
-                                    <sapn id="as-user-{{ $loop->index }}" class="group rounded-md bg-gray-200 text-gray-600 px-2 py-1 space-x-2 space-y-2">
-                                        <a href="/user/{{$asign->user_id}}">{{ $asign->user_name }}</a>
-                                        <button @click="removeUser({{ $loop->index }}, {{ $asign->user_id }}, {{ $post->post_id }})" class="px-1 opacity-0 group-hover:opacity-100 hover:text-red-700"><i class="bi bi-trash"></i></button>
-                                    </span>
+                                <span id="as-user-{{ $loop->index }}"
+                                    class="group rounded-md bg-gray-200 text-gray-600 px-2 py-1 mr-2">
+                                    <a href="/user/{{$asign->user_id}}">{{ $asign->user_name }}</a>
+                                    <button
+                                        @click="removeUser({{ $loop->index }}, {{ $asign->user_id }}, {{ $post->post_id }})"
+                                        class="px-1 opacity-0 group-hover:opacity-100 hover:text-red-700">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </span>
                                 @endforeach
                             </div>
                         </div>
@@ -130,7 +137,6 @@
         integrity="sha512-S/PLyajatVDMRoX6YRLkZ83bPizWLo1MspY/ZgBNEujw39occlW8RxuBKn/NBDgrMXDsz0r3z4vj24reW4PvmQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-
         function parseMarkdown(inputMarkdown) {
             const markdown = inputMarkdown
             const dirtyHtml = marked(markdown)
@@ -138,34 +144,34 @@
             return cleanHtml
         }
 
-        function removeUser(e,user_id, post_id) {
+        function removeUser(e, user_id, post_id) {
 
             if (document.querySelector(`#as-user-${e}`)) {
                 document.querySelector(`#as-user-${e}`).classList.add('hidden')
             }
 
-            fetch ('/endpoint/unasign_user', {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                body: JSON.stringify({
-                    user_id: user_id,
-                    post_id: post_id
+            fetch('/endpoint/unasign_user', {
+                    method: "POST",
+                    headers: {
+                        'content-type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        user_id: user_id,
+                        post_id: post_id
+                    })
                 })
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.status === 200) {
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.status === 200) {
 
-                } else {
+                    } else {
 
-                }
-            })
-            .catch((e) => {
+                    }
+                })
+                .catch((e) => {
 
-            })
+                })
         }
 
     </script>
