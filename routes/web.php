@@ -59,5 +59,7 @@ Route::get('/team', [Team::class, 'index'])->middleware(['auth'])->name('team');
 
 Route::get('/user/{id}', [UserController::class, 'user'])->middleware(['auth'])->name('user');
 
+Route::get('/tasks/kanban', [Posts::class, 'kanban'])->middleware(['auth'])->name('kanban');
+
 require __DIR__.'/auth.php';
 
