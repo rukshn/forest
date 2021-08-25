@@ -240,4 +240,8 @@ class Posts extends Controller
             return json_encode($output);
         }
     }
+
+    public function kanban(Request $request) {
+        return view('kanban');
+    }
 }
