@@ -21,6 +21,9 @@
                     <x-nav-link :href="route('tasks')" :active="request()->routeIs('tasks')">
                         {{ __('🧤 Tasks') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('kanban')" :active="request()->routeIs('kanban')">
+                        {{ __('🗂 Kanban') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('milestones')" :active="request()->routeIs('milestones')">
                         {{ __('⛳️ Milestones') }}
                     </x-nav-link>
@@ -55,7 +58,6 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
