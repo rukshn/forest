@@ -24,4 +24,12 @@ class Kanban extends Controller
 
         return $tasks;
     }
+
+    public function beginTask(Request $request) {
+        // $rules = [
+        //     'post_id' => 'numeric|required'
+        // ];
+
+        // $validat
+    }
 }
