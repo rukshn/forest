@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="my-4 grid grid-cols-8 gap-4">
-                        <p class="col-span-2 text-center">Name</p>
+                        <p class="col-span-2 font-bold">Name</p>
                         <p class="col-span-2 text-center font-bold">Tasks In Progress</p>
                         <p class="col-span-2 text-center font-bold">Completed Tasks</p>
                         <p class="col-span-2 text-center font-bold">Total Tasks</p>
