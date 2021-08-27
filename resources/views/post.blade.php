@@ -34,7 +34,7 @@
                                 <h3 class="text-gray-500">Assigned to</h3>
                                 @foreach ($asigns as $asign)
                                 <span id="as-user-{{ $loop->index }}"
-                                    class="group rounded-md bg-gray-200 text-gray-600 px-2 py-1 mr-2">
+                                    class="group rounded-md bg-gray-200 truncate text-gray-600 px-2 py-1 mr-2">
                                     <a href="/user/{{$asign->user_id}}">{{ $asign->user_name }}</a>
                                     <button
                                         @click="removeUser({{ $loop->index }}, {{ $asign->user_id }}, {{ $post->post_id }})"
