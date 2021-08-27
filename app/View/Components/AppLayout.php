@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\NotificationsModel;
 
 class AppLayout extends Component
 {
@@ -16,13 +17,18 @@ class AppLayout extends Component
       * @var string
       */
       public $title;
+      /**
+       * @var integer
+       */
+      public $notification_count;
 
     public function __construct($title) {
         $this->title = " - " . $title;
+        $this->notification_count = NotificationsModel::where('to_user_id', auth()->user()->id)->count();
     }
 
     public function render()
     {
-        return view('layouts.app');
+        return view('layouts.app', ['notification_count' => $this->notification_count]);
     }
 }
