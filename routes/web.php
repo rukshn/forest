@@ -6,6 +6,7 @@ use App\Http\Controllers\Comments;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Team;
 use App\Http\Controllers\Kanban;
+use App\Http\Controllers\NotificationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,10 @@ Route::get('/endpoint/kanban/tasks', [Kanban::class, 'tasks'])->middleware(['aut
 Route::post('/endpoint/kanban/beginTask', [Kanban::class, 'beginTask'])->middleware(['auth']);
 
 Route::post('/endpoint/kanban/completeTask', [Kanban::class, 'completeTask'])->middleware(['auth']);
+
+Route::get('/notifications', [NotificationsController::class, 'get_all_notifications'])->middleware(['auth'])->name('notifications');
+
+Route::post('/endpoint/notification/read', [NotificationsController::class, 'read_notification'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 
