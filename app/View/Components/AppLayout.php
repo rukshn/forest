@@ -24,7 +24,8 @@ class AppLayout extends Component
 
     public function __construct($title) {
         $this->title = " - " . $title;
-        $this->notification_count = NotificationsModel::where('to_user_id', auth()->user()->id)->count();
+        $this->notification_count = NotificationsModel::where('to_user_id', auth()->user()->id)
+            ->where('has_opened', false)->count();
     }
 
     public function render()
