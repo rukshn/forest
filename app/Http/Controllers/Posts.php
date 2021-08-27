@@ -9,6 +9,7 @@ use App\Models\PostModel;
 use App\Models\PostMetaModel;
 use App\Models\PostStatusModel;
 use App\Models\AsignModel;
+use App\Models\NotificationsModel;
 
 class Posts extends Controller
 {
@@ -80,8 +81,7 @@ class Posts extends Controller
 
     }
 
-    public function get_posts_by_milestones(Request $request)
-    {
+    public function get_posts_by_milestones(Request $request) {
         $feed_posts = DB::table('categories')->where('categories.id', 3)
             ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
@@ -207,6 +207,14 @@ class Posts extends Controller
 
                 $new_assign->save();
             }
+
+            $new_notification = new NotificationsModel();
+            $new_notification->from_user_id = Auth::id();
+            $new_notification->to_user_id = $request->user_id;
+            $new_notification->post_id = $request->post_id;
+            $new_notification->message = auth()->user()->name . ' assigned you with a new task';
+            $new_notification->notification_type = 'task';
+            $new_notification->save();
 
             return redirect()->back()->with('message', 'User assigned');
         }
