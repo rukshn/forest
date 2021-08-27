@@ -21,6 +21,7 @@ class CreateNotificationsTable extends Migration
             $table->bigInteger('post_id');
             $table->text('message')->nullable();
             $table->boolean('has_opened')->default($value=false);
+            $table->string('notification_type')->nullable();
         });
     }
 
