@@ -13,8 +13,13 @@ use App\Models\AsignModel;
 class Kanban extends Controller
 {
     //
+
+    public function index(Request $request) {
+        return view('kanban');
+    }
+
     public function tasks(Request $request) {
-        $tasks = DB::table('post_meta')->where('category_id', '2')->orWhere('category_id', '1')
+        $tasks = DB::table('post_meta')->where('posts.is_archived', false)->where('category_id', '2')->orWhere('category_id', '1')->where('posts.is_archived', false)
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'post_status.post_id', '=', 'posts.id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
