@@ -16,7 +16,16 @@
                     @endif
                     <div class="lg:grid lg:grid-cols-12 lg:gap-4">
                         <div class="py-2 space-y-1 col-span-9">
-                            <h1 class="text-3xl font-bold">{{ $post->post_title }}</h1>
+                            <div class="flex group space-x-2">
+                                <h1 class="text-3xl flex-grow-0 font-bold">@if ($post->is_archived == true) [Archived] @endif {{ $post->post_title }}</h1>
+                                <form method="POST" action="/endpoint/post/archive">
+                                    @csrf
+                                    <input type="hidden" value="{{ $post->post_id }}" name="post_id" />
+                                    <button type="submit" title="Archive post" class="rounded-md align-sub opacity-0 group-hover:opacity-40 hover:opacity-100 px-1 text-sm py-1 hover:text-gray-700 bg-gray-300 text-gray-500">
+                                        <i class="bi bi-archive-fill"></i>
+                                    </button>
+                                </form>
+                            </div>
                             <p class="text-sm font-light text-gray-500">{{ $post->user_name }} {{ $post->created_at}}
                             </p>
                             <div class="content px-3 py-4" x-ref="postContent"
@@ -187,6 +196,10 @@
             position: absolute;
             top: 0;
             width: 2px;
+        }
+
+        .align-sub {
+            vertical-align: sub;
         }
 
     </style>
