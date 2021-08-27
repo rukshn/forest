@@ -33,6 +33,9 @@
                     <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
                         {{ __('✍️ New Post') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('notifications')" :active="request()->routeIs('notifications')" class="text-blue-600">
+                        {{ __('🔔') }} @if ($notification_count !== 0) {{ $notification_count }} @endif
+                    </x-nav-link>
                 </div>
             </div>
 
