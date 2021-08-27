@@ -61,7 +61,7 @@ Route::get('/team', [Team::class, 'index'])->middleware(['auth'])->name('team');
 
 Route::get('/user/{id}', [UserController::class, 'user'])->middleware(['auth'])->name('user');
 
-Route::get('/tasks/kanban', [Posts::class, 'kanban'])->middleware(['auth'])->name('kanban');
+Route::get('/tasks/kanban', [Kanban::class, 'index'])->middleware(['auth'])->name('kanban');
 
 Route::get('/endpoint/kanban/tasks', [Kanban::class, 'tasks'])->middleware(['auth']);
 
@@ -72,6 +72,8 @@ Route::post('/endpoint/kanban/completeTask', [Kanban::class, 'completeTask'])->m
 Route::get('/notifications', [NotificationsController::class, 'get_all_notifications'])->middleware(['auth'])->name('notifications');
 
 Route::post('/endpoint/notification/read', [NotificationsController::class, 'read_notification'])->middleware(['auth']);
+
+Route::post('/endpoint/post/archive', [Posts::class, 'archive_post'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 
