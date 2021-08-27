@@ -54,7 +54,7 @@ class Posts extends Controller
                 'post_status.status_id',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
-                'posts.title as post_title', 'posts.id as post_id', 'posts.post as post_content', 'posts.created_at as created_at',
+                'posts.title as post_title', 'posts.id as post_id', 'posts.post as post_content', 'posts.created_at as created_at', 'posts.is_archived as is_archived',
                 'users.name as user_name', 'users.id as user_id'
             )->first();
 
@@ -82,7 +82,7 @@ class Posts extends Controller
     }
 
     public function get_posts_by_milestones(Request $request) {
-        $feed_posts = DB::table('categories')->where('categories.id', 3)
+        $feed_posts = DB::table('categories')->where('categories.id', 3)->where('is_archived', false)
             ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
@@ -102,7 +102,7 @@ class Posts extends Controller
     }
 
     public function get_posts_by_tasks(Request $request) {
-        $feed_posts = DB::table('categories')->where('categories.id', 2)
+        $feed_posts = DB::table('categories')->where('categories.id', 2)->where('is_archived', false)
             ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
@@ -122,7 +122,7 @@ class Posts extends Controller
     }
 
     public function get_posts_by_issues(Request $request) {
-        $feed_posts = DB::table('categories')->where('categories.id', 1)
+        $feed_posts = DB::table('categories')->where('categories.id', 1)->where('is_archived', false)
             ->join('post_meta', 'categories.id', '=', 'post_meta.category_id')
             ->join('posts', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
@@ -143,7 +143,7 @@ class Posts extends Controller
 
     public function get_feed(Request $request) {
 
-        $feed_posts = DB::table('posts')
+        $feed_posts = DB::table('posts')->where('is_archived', false)
             ->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
@@ -249,7 +249,26 @@ class Posts extends Controller
         }
     }
 
-    public function kanban(Request $request) {
-        return view('kanban');
+    public function archive_post(Request $request) {
+        $rules = [
+            'post_id' => 'numeric|required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', 'Error archiving post');
+        } else {
+            $get_post = PostModel::find($request->post_id);
+            if ($get_post->is_archived == false) {
+                $get_post->is_archived = true;
+                $get_post->save();
+                return redirect()->back()->with('message', 'Post archived');
+            } else {
+                $get_post->is_archived = false;
+                $get_post->save();
+                return redirect()->back()->with('message', 'Post un-archived');
+            }
+        }
     }
 }
