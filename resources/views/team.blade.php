@@ -16,7 +16,7 @@
                         <p class="col-span-2 text-center font-bold">Total Tasks</p>
                       @foreach ($team as $member)
                         <div class="col-span-2">
-                          <a class="profile-link font-bold text-blue-600 hover:text-blue-700" href="/user/{{$member->id}}">
+                          <a class="profile-link font-bold text-blue-600 hover:text-blue-700" href="/user/{{$member->user_id}}">
                             {{ $member->name }} @if($loop->index == 0) <span class="mx-2"> 🔥 <span> @endif
                           </a>
                         </div>

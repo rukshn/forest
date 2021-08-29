@@ -27,7 +27,7 @@ class Team extends Controller
                 GROUP BY
                     u.id
                 ORDER BY
-                    completed_tasks
+                    completed_tasks DESC
         ');
 
         return view('team', ['team' => $team]);
