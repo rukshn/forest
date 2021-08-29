@@ -16,9 +16,11 @@ class Team extends Controller
             ->leftJoin('asigns', 'asigns.user_id', '=', 'users.id')
             ->leftJoin('post_status', 'asigns.id', '=', 'post_status.post_id')
             ->select('users.name as name', 'users.id as user_id',
-                    DB::raw('SUM(post_status.status_id = 2) as in_progrerss_tasks'),
-                    DB::raw('SUM(post_status.status_id = 3) as completed_tasks'))
-            ->groupBy('users.id')
+                    DB::raw('SUM(post_status.status_id = 2) as in_progress_tasks'),
+                    DB::raw('SUM(post_status.status_id = 3) as completed_tasks'),
+                    DB::raw('SUM(post_status.status_id = 1) as asigned_tasks'),
+                    DB::raw('(select count(*) from asigns where asigns.user_id = users.id) as total_tasks'))
+            ->groupBy('users.id', 'users.name')
             ->orderBy('completed_tasks', 'DESC')
             ->get();
 

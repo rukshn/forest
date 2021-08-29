@@ -9,8 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <div class="my-4 grid grid-cols-8 gap-4">
+                    <div class="my-4 grid grid-cols-10 gap-4">
                         <p class="col-span-2 font-bold">Name</p>
+                        <p class="col-span-2 text-center font-bold">Asigned Tasks</p>
                         <p class="col-span-2 text-center font-bold">Tasks In Progress</p>
                         <p class="col-span-2 text-center font-bold">Completed Tasks</p>
                         <p class="col-span-2 text-center font-bold">Total Tasks</p>
@@ -19,6 +20,9 @@
                           <a class="profile-link font-bold text-blue-600 hover:text-blue-700" href="/user/{{$member->user_id}}">
                             {{ $member->name }} @if($loop->index == 0) <span class="mx-2"> 🔥 <span> @endif
                           </a>
+                        </div>
+                        <div class="col-span-2">
+                          <p class="text-center">@if ($member->asigned_tasks == null) 0 @else {{ $member->asigned_tasks }} @endif</p>
                         </div>
                         <div class="col-span-2">
                           <p class="text-center">@if ($member->in_progress_tasks == null) 0 @else {{ $member->in_progress_tasks }} @endif</p>
