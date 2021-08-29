@@ -12,19 +12,8 @@ class Team extends Controller
     //
 
     public function index(Request $request) {
-       $team = DB::table('users')
-            ->leftJoin('asigns', 'asigns.user_id', '=', 'users.id')
-            ->leftJoin('post_status', 'asigns.id', '=', 'post_status.post_id')
-            ->select('users.name as name', 'users.id as user_id',
-                    DB::raw('SUM(post_status.status_id = 2) as in_progress_tasks'),
-                    DB::raw('SUM(post_status.status_id = 3) as completed_tasks'),
-                    DB::raw('SUM(post_status.status_id = 1) as asigned_tasks'),
-                    DB::raw('(select count(*) from asigns where asigns.user_id = users.id) as total_tasks'))
-            ->groupBy('users.id', 'users.name')
-            ->orderBy('completed_tasks', 'DESC')
-            ->get();
-
+        $sql = 'SELECT SUM(ps.status_id = 1) AS asigned_tasks, SUM(ps.status_id = 2) AS in_progress_tasks, SUM(ps.status_id = 3) AS completed_tasks, COUNT(a.user_id = u.id) AS total_tasks, u.name, u.id as user_id FROM users u LEFT JOIN asigns a ON a.user_id = u.id LEFT JOIN post_status ps ON a.post_id = ps.post_id GROUP BY u.id,u.name ORDER BY completed_tasks DESC';
+        $team = DB::select($sql);
         return view('team', ['team' => $team]);
-        // return json_encode($team);
     }
 }
