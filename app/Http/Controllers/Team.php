@@ -5,27 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 Use App\Models\User;
+Use App\Models\AsignModel;
 
 class Team extends Controller
 {
     //
 
     public function index(Request $request) {
-        $team = User::select('users.name', 'users.id',
-                DB::raw('(select count(*) from asigns where asigns.user_id = users.id) as task_count'),
-                DB::raw('(select count(*) from post_status where post_status.status_id = 2 and post_status.post_id = posts.id)
-                        as assigned_tasks'),
-                DB::raw('(select count(*) from post_status where post_status.status_id = 3 and post_status.post_id = posts.id)
-                        as completed_tasks')
-                )
-                ->leftJoin('asigns', 'users.id', '=', 'asigns.user_id')
-                ->join('posts', 'posts.id', '=', 'asigns.post_id')
-                ->join('post_status', 'post_status.post_id', '=', 'posts.id')
-                ->orderBy('completed_tasks', 'asc')
-                ->distinct()
-                ->get();
-
-        // return json_encode($team);
+        $team = DB::select('SELECT
+                    SUM(ps.status_id = 2) AS in_progress_tasks,
+                    SUM(ps.status_id = 3) AS completed_tasks,
+                    COUNT(a.user_id = u.id) AS total_tasks,
+                    u.name,
+                    u.id as user_id
+                FROM
+                    users u
+                LEFT JOIN
+                    asigns a ON a.user_id = u.id
+                LEFT JOIN
+                    post_status ps ON a.post_id = ps.post_id
+                GROUP BY
+                    u.id
+                ORDER BY
+                    completed_tasks
+        ');
 
         return view('team', ['team' => $team]);
     }
