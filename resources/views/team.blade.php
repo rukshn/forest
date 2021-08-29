@@ -17,17 +17,17 @@
                       @foreach ($team as $member)
                         <div class="col-span-2">
                           <a class="profile-link font-bold text-blue-600 hover:text-blue-700" href="/user/{{$member->id}}">
-                            {{ $member->name }} @if($loop->index == 0) <span class="mx-2"> ⭐️ <span> @endif
+                            {{ $member->name }} @if($loop->index == 0) <span class="mx-2"> 🔥 <span> @endif
                           </a>
                         </div>
                         <div class="col-span-2">
-                          <p class="text-center">{{ $member->assigned_tasks }}</p>
+                          <p class="text-center">@if ($member->in_progress_tasks == null) 0 @else {{ $member->in_progress_tasks }} @endif</p>
                         </div>
                         <div class="col-span-2">
-                          <p class="text-center">{{ $member->completed_tasks }}</p>
+                          <p class="text-center">@if ($member->completed_tasks == null) 0 @else {{ $member->completed_tasks }} @endif</p>
                         </div>
                         <div class="col-span-2">
-                          <p class="text-center">{{ $member->task_count }}</p>
+                          <p class="text-center">@if ($member->completed_tasks == null) 0 @else {{ $member->total_tasks }} @endif</p>
                         </div>
                       @endforeach
                     </div>
