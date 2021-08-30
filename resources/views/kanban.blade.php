@@ -25,8 +25,11 @@
                                         class="bg-red-200 border-2 rounded-md border-red-300 text-red-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
                                 </div>
-                                <div class="py-2 space-x-2">
-                                    <p class="text-gray-400 font-light" x-text="task.date"></p>
+                                <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1">
+                                        <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -52,8 +55,11 @@
                                         class="bg-yellow-200 border-2 rounded-md border-yellow-300 text-yellow-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
                                 </div>
-                                <div class="py-2 space-x-2">
-                                    <p class="text-gray-400 font-light" x-text="task.date"></p>
+                                <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1">
+                                        <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -78,8 +84,11 @@
                                         class="bg-green-200 border-2 rounded-md border-green-300 text-green-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
                                 </div>
-                                <div class="py-2 space-x-2">
-                                    <p class="text-gray-400 font-light" x-text="task.date"></p>
+                                <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1">
+                                        <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -132,6 +141,23 @@
             done: [],
             loading: true,
             notification_message: "Loading Kanban Board",
+            parseDate(date) {
+                // Split timestamp into [ Y, M, D, h, m, s ]
+                const t = date.split(/[- :]/)
+                // Apply each element to the Date function
+                const d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]))
+                const month = d.getMonth()
+                const year = d.getFullYear()
+                const day = d.getDate()
+                return `${day}-${month}-${year}`
+            },
+            parseName(name) {
+                if (!name) {
+                    return 'Unassigned'
+                } else {
+                    return name
+                }
+            },
             beginTask(item, index, post_status_id) {
               const task = this.todo[index]
               this.todo.splice(index,1)
