@@ -26,5 +26,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <x-analytics></x-analytics>
     </body>
 </html>
