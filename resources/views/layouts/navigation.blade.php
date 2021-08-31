@@ -56,7 +56,10 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('team')">
-                                {{ __('My Team') }}
+                                {{ __('👏 My Team') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('announcement')">
+                            {{ __('📣 New Announcement')}}
                         </x-dropdown-link>
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -119,6 +122,11 @@
                 <div>
                     <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
                         {{ __('✍️ New Post') }}
+                    </x-nav-link>
+                </div>
+                <div>
+                    <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
+                        {{ __('📣 New Announcement') }}
                     </x-nav-link>
                 </div>
             </div>
