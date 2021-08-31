@@ -5,3 +5,10 @@ img.emoji {
   vertical-align: -0.1em;
   display: inline-block;
 }
+
+code {
+  padding: 0.25em 0.5em;
+  padding-bottom: 0.25em;
+  background: #2b2b2b;
+  color: #ffeb3b;
+}
