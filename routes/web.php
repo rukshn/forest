@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Team;
 use App\Http\Controllers\Kanban;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,13 +32,19 @@ Route::get('/tasks', [Posts::class, 'get_posts_by_tasks'])->middleware(['auth'])
 
 Route::get('/milestones', [Posts::class, 'get_posts_by_milestones'])->middleware(['auth'])->name('milestones');
 
-Route::get('/compose', function() {
+Route::get('/new/post', function() {
     return view('compose');
 })->middleware(['auth'])->name('compose');
 
+Route::get('/new/announcement', function() {
+    return view('create_announcement');
+})->middleware(['auth'])->name('announcement');
+
 Route::get('/post/{id}', [Posts::class, 'get_post'])->middleware(['auth'])->name('post');
 
-Route::post('/endpoint/compose', [Posts::class, 'new_post'])->middleware(['auth']);
+Route::post('/endpoint/new/post', [Posts::class, 'new_post'])->middleware(['auth']);
+
+Route::post('/endpoint/new/announcement', [AnnouncementController::class, 'new_announcement'])->middleware(['auth']);
 
 Route::post('/endpiont/edit_post', [Posts::class, 'edit_post'])->middleware(['auth']);
 
@@ -74,6 +81,10 @@ Route::get('/notifications', [NotificationsController::class, 'get_all_notificat
 Route::post('/endpoint/notification/read', [NotificationsController::class, 'read_notification'])->middleware(['auth']);
 
 Route::post('/endpoint/post/archive', [Posts::class, 'archive_post'])->middleware(['auth']);
+
+Route::get('/announcement/{announcement_id}', [AnnouncementController::class, 'get_announcement'])->middleware(['auth']);
+
+Route::post('/endpoint/announcement/archive', [AnnouncementController::class, 'archive_announcement'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 
