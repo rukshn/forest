@@ -66,7 +66,7 @@ class AnnouncementController extends Controller
         } else {
             $announcement = AnnouncementModel::find($request->post_id);
             if ($announcement !== null) {
-                if ($announcement->is_pinned = true) {
+                if ($announcement->is_pinned == true) {
                     $announcement->is_pinned = false;
                     $announcement->save();
                     return redirect()->back()->with('message', 'Announcement unpinned');

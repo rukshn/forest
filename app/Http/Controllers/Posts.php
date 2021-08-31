@@ -10,6 +10,7 @@ use App\Models\PostMetaModel;
 use App\Models\PostStatusModel;
 use App\Models\AsignModel;
 use App\Models\NotificationsModel;
+use App\Models\AnnouncementModel;
 
 class Posts extends Controller
 {
@@ -158,7 +159,21 @@ class Posts extends Controller
                     DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
             ->limit(50)->get();
 
-        return view('dashboard', ['feed' => $feed_posts]);
+        $get_announcement = AnnouncementModel::where('is_pinned', true)->first();
+
+        if (isset($get_announcement)) {
+            $has_announcement = true;
+        } else {
+            $has_announcement = false;
+        }
+        // return json_encode($annoucement);
+        return view('dashboard',
+            [
+                'feed' => $feed_posts,
+                'has_announcement'=> $has_announcement,
+                'announcement' => $get_announcement
+            ]
+        );
 
     }
 

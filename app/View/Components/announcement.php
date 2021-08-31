@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-use App\Models\AnnouncementModel;
 
 class announcement extends Component
 {
@@ -11,11 +10,7 @@ class announcement extends Component
      * Create a new component instance.
      *  @var string
      */
-    public $title;
-    /**
-    *   @var string;
-    */
-        public $announcement;
+        public $title;
     /**
      *  @var integer;
      */
@@ -25,16 +20,11 @@ class announcement extends Component
      */
         public $has_announcement;
 
-    public function __construct()
+    public function __construct($hasAnnouncement, $title, $announcementId)
     {
-        $get_announcement = AnnouncementModel::where('is_pinned', true)->first();
-        $this->has_announcement = false;
-        if (isset($get_announcement)) {
-            $this->has_announcement = true;
-            $this->title = $get_announcement->title;
-            $this->announcement = $get_announcement->announcement;
-            $this->announcement_id = $get_announcement->id;
-        }
+        $this->has_announcement = $hasAnnouncement;
+        $this->title = $title;
+        $this->announcement_id = $announcementId;
     }
 
     /**
