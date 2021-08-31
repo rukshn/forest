@@ -12,6 +12,7 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/emoji.css') }}">
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="/logo.svg">
         <!-- Scripts -->
