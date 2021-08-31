@@ -14,15 +14,23 @@
                         task etc</h2>
 
                     @if (Session::has('error'))
-                        <p>{{ Session::get('error') }}</p>
+                        <x-message>
+                            {{ Session::get('error') }}
+                        </x-message>
                     @endif
 
-                    <form action="/endpoint/compose" method="POST">
+                    @if (Session::has('message'))
+                    <x-message>
+                        {{ Session::get('message') }}
+                    </x-message>
+                    @endif
+
+                    <form action="/endpoint/new/post" method="POST">
                         @csrf
                         <x-input id="title" class="block mt-1 w-full" type="text" name="title" placeholder="Post title"
                             required autocomplete="off" />
 
-                        <x-textarea class="w-full mt-2" name="post" placeholder="Use markdown to format your text" />
+                        <x-textarea rows="10" class="w-full mt-2" name="post" placeholder="Use markdown to format your text" />
 
                         <select name="category"
                             class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
