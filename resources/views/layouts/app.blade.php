@@ -27,5 +27,13 @@
             </main>
         </div>
         <x-analytics></x-analytics>
+        <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
+        <script>
+            twemoji.parse(document.body, {
+                folder: 'svg',
+                ext: '.svg',
+                size: "1rem"
+            })
+        </script>
     </body>
 </html>
