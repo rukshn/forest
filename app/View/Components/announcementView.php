@@ -28,13 +28,12 @@ class announcementView extends Component
     public function __construct()
     {
         $get_announcement = AnnouncementModel::where('is_pinned', true)->first();
+        $this->has_announcement = false;
         if (isset($get_announcement)) {
             $this->has_announcement = true;
             $this->title = $get_announcement->title;
             $this->announcement = $get_announcement->announcement;
             $this->announcement_id = $get_announcement->id;
-        } else {
-            $this->has_announcement = false;
         }
     }
 
