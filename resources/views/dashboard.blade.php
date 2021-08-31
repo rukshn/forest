@@ -9,7 +9,7 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-announcement
-                :hasAnnouncement="$has_announcement"
+                :hasAnnouncement="$has_announcement ?? false"
                 :title="$announcement->title ?? ''"
                 :announcementId="$announcement->id ?? ''">
             </x-announcement>
