@@ -5,13 +5,13 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use App\Models\AnnouncementModel;
 
-class announcementView extends Component
+class announcement extends Component
 {
     /**
      * Create a new component instance.
      *  @var string
      */
-        public $title;
+    public $title;
     /**
     *   @var string;
     */
@@ -44,6 +44,6 @@ class announcementView extends Component
      */
     public function render()
     {
-        return view('components.announcement-view');
+        return view('components.announcement');
     }
 }
