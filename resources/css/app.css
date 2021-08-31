@@ -28,3 +28,11 @@
 .content p:not(:last-of-type) {
     @apply mb-2;
 }
+
+img.emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 .5rem 0 .1em;
+    vertical-align: -0.1em;
+    display: inline-block;
+}

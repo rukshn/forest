@@ -32153,6 +32153,14 @@ select{
   margin-bottom: 0.5rem;
 }
 
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .5rem 0 .1em;
+  vertical-align: -0.1em;
+  display: inline-block;
+}
+
 @media (min-width: 640px){
   .sm\:container{
     width: 100%;
