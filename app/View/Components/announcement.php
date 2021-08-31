@@ -14,17 +14,17 @@ class announcement extends Component
     /**
      *  @var integer;
      */
-        public $announcement_id;
+        public $announcementId;
     /**
      *  @var boolean;
      */
-        public $has_announcement;
+        public $hasAnnouncement;
 
     public function __construct($hasAnnouncement, $title, $announcementId)
     {
-        $this->has_announcement = $hasAnnouncement;
+        $this->hasAnnouncement = $hasAnnouncement;
         $this->title = $title;
-        $this->announcement_id = $announcementId;
+        $this->announcementId = $announcementId;
     }
 
     /**
