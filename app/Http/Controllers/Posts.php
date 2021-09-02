@@ -11,6 +11,7 @@ use App\Models\PostStatusModel;
 use App\Models\AsignModel;
 use App\Models\NotificationsModel;
 use App\Models\AnnouncementModel;
+use App\Models\MilestoneModel;
 
 class Posts extends Controller
 {
@@ -50,14 +51,17 @@ class Posts extends Controller
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
             ->leftJoin('priority_codes', 'posts.priority', '=', 'priority_codes.id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
+            ->leftJoin('milestones', 'milestones.post_id', '=', 'posts.id')
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
             ->select('post_meta.category_id',
                 'post_status.status_id',
+                'milestones.milestone_id as milestone',
+                'milestones.id as milestone_id',
                 'posts.deadline as deadline',
                 'priority_codes.priority_code as priority', 'priority_codes.color as priority_color',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
-                'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
+                'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color', 'categories.id as category_id',
                 'posts.title as post_title', 'posts.id as post_id', 'posts.post as post_content', 'posts.created_at as created_at', 'posts.is_archived as is_archived',
                 'users.name as user_name', 'users.id as user_id'
             )->first();
@@ -70,11 +74,27 @@ class Posts extends Controller
             ->select('comments.comment as comment', 'users.name as username', 'users.id as user_id', 'comments.created_at as created_at')
             ->get();
 
+        $get_milestones = DB::table('post_meta')->where('category_id', 3)->where('posts.is_archived', false)
+                        ->join('posts', 'posts.id', '=', 'post_meta.post_id')
+                        ->select('posts.id as milestone_id', 'posts.title as milestone')
+                        ->get();
+
+        $current_milestone = DB::table('milestones')->where('milestones.milestone_id', $get_post->milestone)
+            ->join('posts', 'milestones.post_id', '=', 'posts.id')
+            ->select('posts.title as title', 'posts.id as milestone_id')->first();
+
         $get_assigns = DB::table('asigns')->where('asigns.post_id', $request->id)
             ->join('users', 'asigns.user_id', '=', 'users.id')
             ->select('users.name as user_name', 'users.id as user_id')->get();
 
-        return view('post', ['post' => $get_post, 'comments'=> $get_comments, 'users' => $get_users, 'asigns' => $get_assigns]);
+        return view('post', [
+            'post' => $get_post,
+            'comments'=> $get_comments,
+            'users' => $get_users,
+            'asigns' => $get_assigns,
+            'milestones' => $get_milestones,
+            'current_milestone' => $current_milestone
+        ]);
     }
 
     public function edit_post(Request $request) {
@@ -323,8 +343,33 @@ class Posts extends Controller
             $post = PostModel::find($request->post_id);
             $post->priority = $request->priority;
             $post->save();
-
             return redirect()->back()->with('message', 'Priority changed');
+        }
+    }
+
+    public function set_milestone(Request $request) {
+        $rules = [
+            'post_id' => 'numeric|required',
+            'milestone' => 'numeric|required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', 'Error setting milestone');
+        } else {
+            $get_milestone = MilestoneModel::where('post_id' , $request->post_id)->where('milestone_id', $request->milestone)->first();
+            if (isset($get_milestone)) {
+                return redirect()->back()->with('message', 'Milestone saved');
+            }
+            else {
+                $new_milestone_post = new MilestoneModel();
+                $new_milestone_post->post_id = $request->post_id;
+                $new_milestone_post->milestone_id = $request->milestone;
+                $new_milestone_post->save();
+                return redirect()->back()->with('message', 'Milestone saved');
+            }
+
         }
     }
 }
