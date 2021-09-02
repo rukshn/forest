@@ -48,11 +48,14 @@ class Posts extends Controller
         $get_post = DB::table('posts')->where('posts.id', $request->id)
             ->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('post_status', 'posts.id', '=', 'post_status.post_id')
+            ->leftJoin('priority_codes', 'posts.priority', '=', 'priority_codes.id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
             ->select('post_meta.category_id',
                 'post_status.status_id',
+                'posts.deadline as deadline',
+                'priority_codes.priority_code as priority', 'priority_codes.color as priority_color',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color',
                 'posts.title as post_title', 'posts.id as post_id', 'posts.post as post_content', 'posts.created_at as created_at', 'posts.is_archived as is_archived',
@@ -284,6 +287,44 @@ class Posts extends Controller
                 $get_post->save();
                 return redirect()->back()->with('message', 'Post un-archived');
             }
+        }
+    }
+
+    public function set_deadline(Request $request) {
+        $rules = [
+            'post_id' => 'numeric|required',
+            'deadline' => 'required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', 'Error setting deadline');
+        } else {
+            $post = PostModel::find($request->post_id);
+            $post->deadline = $request->deadline;
+            $post->save();
+
+            return redirect()->back()->with('message', 'Deadline set');
+        }
+    }
+
+    public function change_priority(Request $request) {
+        $rules = [
+            'post_id' => 'numeric|required',
+            'priority' => 'numeric|required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('error', 'Error setting priority');
+        } else {
+            $post = PostModel::find($request->post_id);
+            $post->priority = $request->priority;
+            $post->save();
+
+            return redirect()->back()->with('message', 'Priority changed');
         }
     }
 }
