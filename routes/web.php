@@ -90,5 +90,7 @@ Route::post('/endpoint/post/set_deadline', [Posts::class, 'set_deadline'])->midd
 
 Route::post('/endpoint/post/change_priority', [Posts::class, 'change_priority'])->middleware(['auth']);
 
+Route::post('/endpoint/post/set_milestone', [Posts::class, 'set_milestone'])->middleware(['auth']);
+
 require __DIR__.'/auth.php';
 
