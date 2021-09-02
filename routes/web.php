@@ -86,5 +86,9 @@ Route::get('/announcement/{announcement_id}', [AnnouncementController::class, 'g
 
 Route::post('/endpoint/announcement/archive', [AnnouncementController::class, 'archive_announcement'])->middleware(['auth']);
 
+Route::post('/endpoint/post/set_deadline', [Posts::class, 'set_deadline'])->middleware(['auth']);
+
+Route::post('/endpoint/post/change_priority', [Posts::class, 'change_priority'])->middleware(['auth']);
+
 require __DIR__.'/auth.php';
 
