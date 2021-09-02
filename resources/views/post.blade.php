@@ -34,10 +34,26 @@
                                 x-html='parseMarkdown(@json($post->post_content))'></div>
                         </div>
                         <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-3 flex lg:block">
-                            <div class="space-y-3">
+                            @if ($post->category_id != 3)
+                                <div class="space-y-1">
+                                    <h3 class="text-gray-500 mb-1.5">Milestone</h3>
+                                    @if ($current_milestone != null)
+                                    <p class="font-bold">
+                                        {{ $current_milestone->title }}
+                                    </p>
+                                    @else
+                                    <p>
+                                        No milestone
+                                    </p>
+                                    @endif
+                                </div>
+                            @endif
+                            @if ($post->deadline !== null)
+                            <div class="space-y-1">
                                 <h3 class="text-gray-500 mb-1.5">Deadline</h3>
-                                <p class="font-bold text-xl">{{ $post->deadline }}</p>
+                                <p class="font-bold">{{ $post->deadline }}</p>
                             </div>
+                            @endif
                             <div class="space-y-3">
                                 <h3 class="text-gray-500 mb-1.5">Priority</h3>
                                 <span class="rounded-lg capitalize py-1 px-2 text-white font-bold" style="background-color: #{{$post->priority_color}}">
@@ -80,7 +96,7 @@
                                     <div class="py-3">
                                         <h3 class="font-bold text-gray-500">Change status</h3>
                                         <select name="status"
-                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                                             <option value="1">Todo</option>
                                             <option value="2">In progress</option>
                                             <option value="3">Completed</option>
@@ -100,7 +116,7 @@
                                     <div class="py-3">
                                         <h3 class="font-bold text-gray-500">Assign user</h3>
                                         <select name="user_id"
-                                            class="w-auto border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            class="w-auto h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                                             @foreach ($users as $user)
                                             <option value="{{ $user->user_id}}">{{ $user->name }}</option>
                                             @endforeach
@@ -120,7 +136,7 @@
                                     <div class="py-3">
                                         <h3 class="font-bold text-gray-500">Priority</h3>
                                         <select name="priority"
-                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                                             <option value="1">Lowest</option>
                                             <option value="2">Low</option>
                                             <option value="3">Medium</option>
@@ -142,7 +158,7 @@
                                     <div class="py-3">
                                         <h3 class="font-bold text-gray-500">Deadline</h3>
                                         <input type="date" name="deadline" required
-                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
+                                            class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
                                         >
                                     </div>
                                     <div class="buttons">
@@ -152,6 +168,29 @@
                                     </div>
                                 </form>
                             </div>
+                            @if ($post->category_id != 3)
+                            <div class="flex-initial">
+                                <form action="/endpoint/post/set_milestone" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                    <div class="py-3">
+                                        <h3 class="font-bold text-gray-500">Milestone</h3>
+                                        <select name="milestone" required
+                                            class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            <option selected disabled>Select milestone</option>
+                                            @foreach ($milestones as $milestone)
+                                            <option value="{{$milestone->milestone_id}}">{{ $milestone->milestone }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="buttons">
+                                        <x-button class="w-full">
+                                            {{__('Set milestone')}}
+                                        </x-button>
+                                    </div>
+                                </form>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
