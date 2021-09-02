@@ -17,11 +17,13 @@
                     <div class="lg:grid lg:grid-cols-12 lg:gap-4">
                         <div class="py-2 space-y-1 col-span-9">
                             <div class="flex group space-x-2">
-                                <h1 class="text-3xl flex-grow-0 font-bold">@if ($post->is_archived == true) [Archived] @endif {{ $post->post_title }}</h1>
+                                <h1 class="text-3xl flex-grow-0 font-bold">@if ($post->is_archived == true) [Archived]
+                                    @endif {{ $post->post_title }}</h1>
                                 <form method="POST" action="/endpoint/post/archive">
                                     @csrf
                                     <input type="hidden" value="{{ $post->post_id }}" name="post_id" />
-                                    <button type="submit" title="Archive post" class="rounded-md align-sub opacity-0 group-hover:opacity-40 hover:opacity-100 px-1 text-sm py-1 hover:text-gray-700 bg-gray-300 text-gray-500">
+                                    <button type="submit" title="Archive post"
+                                        class="rounded-md align-sub opacity-0 group-hover:opacity-40 hover:opacity-100 px-1 text-sm py-1 hover:text-gray-700 bg-gray-300 text-gray-500">
                                         <i class="bi bi-archive-fill"></i>
                                     </button>
                                 </form>
@@ -33,14 +35,24 @@
                         </div>
                         <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-3 flex lg:block">
                             <div class="space-y-3">
-                                <h3 class="text-gray-500">Tags</h3>
+                                <h3 class="text-gray-500 mb-1.5">Deadline</h3>
+                                <p class="font-bold text-xl">{{ $post->deadline }}</p>
+                            </div>
+                            <div class="space-y-3">
+                                <h3 class="text-gray-500 mb-1.5">Priority</h3>
+                                <span class="rounded-lg capitalize py-1 px-2 text-white font-bold" style="background-color: #{{$post->priority_color}}">
+                                    {{ $post->priority}}
+                                </span>
+                            </div>
+                            <div class="space-y-3">
+                                <h3 class="text-gray-500 mb-1.5">Tags</h3>
                                 <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
                                     style="background-color: #{{$post->category_color}}">{{ $post->category_name }}</span>
                                 <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
                                     style="background-color: #{{$post->status_color}}">{{ $post->status_name }}</span>
                             </div>
                             <div class="space-y-3">
-                                <h3 class="text-gray-500">Assigned to</h3>
+                                <h3 class="text-gray-500 mb-1.5">Assigned to</h3>
                                 @foreach ($asigns as $asign)
                                 <span id="as-user-{{ $loop->index }}"
                                     class="group rounded-md bg-gray-200 truncate text-gray-600 px-2 py-1 mr-2">
@@ -56,46 +68,90 @@
                         </div>
                     </div>
 
-                    <div class="flex space-x-4">
-                        <div class="flex-initial">
-                            <form action="/endpoint/change_status" method="POST">
-                                @csrf
-                                <input type="hidden" name="post_id" value="{{$post->post_id}}">
-                                <div class="py-3">
-                                    <h3 class="font-bold text-gray-500">Change status</h3>
-                                    <select name="status"
-                                        class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
-                                        <option value="1">Todo</option>
-                                        <option value="2">In progress</option>
-                                        <option value="3">Completed</option>
-                                    </select>
-                                </div>
-                                <div class="buttons" type="submit">
-                                    <x-button class="w-full">
-                                        {{__('Change status')}}
-                                    </x-button>
-                                </div>
-                            </form>
+                    <div x-data="{open: false}">
+                        <div class="buttons my-2">
+                            <button class="rounded-md px-2 py-0.5 bg-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-400 font-bold" @click="open = ! open">Options</button>
                         </div>
-                        <div class="flex-initial">
-                            <form action="/endpoint/asign_user" method="post">
-                                @csrf
-                                <input type="hidden" name="post_id" value="{{ $post->post_id }}">
-                                <div class="py-3">
-                                    <h3 class="font-bold text-gray-500">Assign user</h3>
-                                    <select name="user_id"
-                                        class="w-auto border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
-                                        @foreach ($users as $user)
-                                        <option value="{{ $user->user_id}}">{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="buttons">
-                                    <x-button class="w-full">
-                                        {{__('Assign user')}}
-                                    </x-button>
-                                </div>
-                            </form>
+                        <div class="flex space-x-6" x-show="open" x-transition>
+                            <div class="flex-initial">
+                                <form action="/endpoint/change_status" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{$post->post_id}}">
+                                    <div class="py-3">
+                                        <h3 class="font-bold text-gray-500">Change status</h3>
+                                        <select name="status"
+                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            <option value="1">Todo</option>
+                                            <option value="2">In progress</option>
+                                            <option value="3">Completed</option>
+                                        </select>
+                                    </div>
+                                    <div class="buttons" type="submit">
+                                        <x-button class="w-full">
+                                            {{__('Change status')}}
+                                        </x-button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex-initial">
+                                <form action="/endpoint/asign_user" method="post">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                    <div class="py-3">
+                                        <h3 class="font-bold text-gray-500">Assign user</h3>
+                                        <select name="user_id"
+                                            class="w-auto border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            @foreach ($users as $user)
+                                            <option value="{{ $user->user_id}}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="buttons">
+                                        <x-button class="w-full">
+                                            {{__('Assign user')}}
+                                        </x-button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex-initial">
+                                <form action="/endpoint/post/change_priority" method="post">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                    <div class="py-3">
+                                        <h3 class="font-bold text-gray-500">Priority</h3>
+                                        <select name="priority"
+                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                            <option value="1">Lowest</option>
+                                            <option value="2">Low</option>
+                                            <option value="3">Medium</option>
+                                            <option value="4">High</option>
+                                            <option value="5">Highest</option>
+                                        </select>
+                                    </div>
+                                    <div class="buttons">
+                                        <x-button class="w-full">
+                                            {{__('Change priority')}}
+                                        </x-button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="flex-initial">
+                                <form action="/endpoint/post/set_deadline" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                    <div class="py-3">
+                                        <h3 class="font-bold text-gray-500">Deadline</h3>
+                                        <input type="date" name="deadline" required
+                                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
+                                        >
+                                    </div>
+                                    <div class="buttons">
+                                        <x-button class="w-full">
+                                            {{__('Set deadline')}}
+                                        </x-button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
