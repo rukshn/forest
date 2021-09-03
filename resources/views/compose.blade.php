@@ -32,12 +32,51 @@
 
                         <x-textarea rows="10" class="w-full mt-2" name="post" placeholder="Use markdown to format your text" />
 
-                        <select name="category"
-                            class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
-                            <option value="1">Issue</option>
-                            <option value="2">Task</option>
-                            <option value="3">Milestone</option>
-                        </select>
+                        <div class="grid grid-cols-4 gap-4">
+                            <div>
+                                <h3 class="font-bold text-gray-500">
+                                    Category
+                                </h3>
+                                <select name="category"
+                                    class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                    <option value="1">Issue</option>
+                                    <option value="2">Task</option>
+                                    <option value="3">Milestone</option>
+                                </select>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-500">Priority</h3>
+                                <select name="priority"
+                                class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
+                                >
+                                    <option value="1">Lowest</option>
+                                    <option value="2">Low</option>
+                                    <option selected value="3">Medium</option>
+                                    <option value="4">High</option>
+                                    <option value="5">Highest</option>
+                                </select>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-500">
+                                    Deadline
+                                </h3>
+                                <input type="date" name="deadline"
+                                            class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
+                                        >
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-500">
+                                    Milestone
+                                </h3>
+                                <select name="milestone"
+                                    class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
+                                    <option disabled selected value="0">Select milestone</option>
+                                    @foreach ($milestones as $milestone)
+                                    <option value="{{ $milestone->milestone_id }}">{{ $milestone->milestone }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="buttons mt-2">
                             <x-button>
