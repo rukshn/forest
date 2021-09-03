@@ -21,7 +21,8 @@ class Posts extends Controller
         $rules = [
             'title' => 'required',
             'post' => 'required',
-            'category' => 'required'
+            'category' => 'required',
+            'priority' => 'required|numeric'
         ];
 
         $validate = Validator::make($request->all(), $rules);
@@ -34,7 +35,16 @@ class Posts extends Controller
             $new_post->title = $request->title;
             $new_post->post = $request->post;
             $new_post->created_by = $user_id;
+            $new_post->priority = $request->priority;
+            $new_post->deadline = $request->deadline;
             $new_post->save();
+
+            if ($request->milestone) {
+                $new_milestone_post = new MilestoneModel();
+                $new_milestone_post->milestone_id = $request->milestone;
+                $new_milestone_post->post_id = $new_post->id;
+                $new_milestone_post->save();
+            }
 
             $post_meta = new PostMetaModel;
             $post_meta->post_id = $new_post->id;
