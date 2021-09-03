@@ -48,12 +48,14 @@
                                     @endif
                                 </div>
                             @endif
-                            @if ($post->deadline !== null)
                             <div class="space-y-1">
                                 <h3 class="text-gray-500 mb-1.5">Deadline</h3>
+                                @if ($post->deadline !== null)
                                 <p class="font-bold">{{ $post->deadline }}</p>
+                                @else
+                                <p>No deadline</p>
+                                @endif
                             </div>
-                            @endif
                             <div class="space-y-3">
                                 <h3 class="text-gray-500 mb-1.5">Priority</h3>
                                 <span class="rounded-lg capitalize py-1 px-2 text-white font-bold" style="background-color: #{{$post->priority_color}}">
