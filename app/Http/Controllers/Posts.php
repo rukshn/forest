@@ -76,35 +76,41 @@ class Posts extends Controller
                 'users.name as user_name', 'users.id as user_id'
             )->first();
 
-        $get_users = DB::table('users')->select('users.name as name', 'users.id as user_id')->get();
+        if (!isset($get_post)) {
+            return abort(404);
+        } else {
 
-        $get_comments = DB::table('posts')->where('posts.id', $request->id)
-            ->join('comments', 'comments.post_id', '=', 'posts.id')
-            ->join('users', 'comments.created_by', '=', 'users.id')
-            ->select('comments.comment as comment', 'users.name as username', 'users.id as user_id', 'comments.created_at as created_at')
-            ->get();
+            $get_users = DB::table('users')->select('users.name as name', 'users.id as user_id')->get();
 
-        $get_milestones = DB::table('post_meta')->where('category_id', 3)->where('posts.is_archived', false)
-                        ->join('posts', 'posts.id', '=', 'post_meta.post_id')
-                        ->select('posts.id as milestone_id', 'posts.title as milestone')
-                        ->get();
+            $get_comments = DB::table('posts')->where('posts.id', $request->id)
+                ->join('comments', 'comments.post_id', '=', 'posts.id')
+                ->join('users', 'comments.created_by', '=', 'users.id')
+                ->select('comments.comment as comment', 'users.name as username', 'users.id as user_id', 'comments.created_at as created_at')
+                ->get();
 
-        $current_milestone = DB::table('milestones')->where('milestones.milestone_id', $get_post->milestone)
-            ->join('posts', 'milestones.post_id', '=', 'posts.id')
-            ->select('posts.title as title', 'posts.id as milestone_id')->first();
+            $get_milestones = DB::table('post_meta')->where('category_id', 3)->where('posts.is_archived', false)
+                            ->join('posts', 'posts.id', '=', 'post_meta.post_id')
+                            ->select('posts.id as milestone_id', 'posts.title as milestone')
+                            ->get();
 
-        $get_assigns = DB::table('asigns')->where('asigns.post_id', $request->id)
-            ->join('users', 'asigns.user_id', '=', 'users.id')
-            ->select('users.name as user_name', 'users.id as user_id')->get();
+            $current_milestone = DB::table('milestones')->where('milestones.post_id', $request->post_id)
+                ->leftJoin('posts', 'milestones.milestone_id', '=', 'posts.id')
+                ->select('posts.title as title', 'posts.id as milestone_id')->first();
 
-        return view('post', [
-            'post' => $get_post,
-            'comments'=> $get_comments,
-            'users' => $get_users,
-            'asigns' => $get_assigns,
-            'milestones' => $get_milestones,
-            'current_milestone' => $current_milestone
-        ]);
+            $get_assigns = DB::table('asigns')->where('asigns.post_id', $request->id)
+                ->join('users', 'asigns.user_id', '=', 'users.id')
+                ->select('users.name as user_name', 'users.id as user_id')->get();
+
+            return view('post', [
+                'post' => $get_post,
+                'comments'=> $get_comments,
+                'users' => $get_users,
+                'asigns' => $get_assigns,
+                'milestones' => $get_milestones,
+                'current_milestone' => $current_milestone
+            ]);
+        }
+
     }
 
     public function edit_post(Request $request) {
