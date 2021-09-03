@@ -93,7 +93,7 @@ class Posts extends Controller
                             ->select('posts.id as milestone_id', 'posts.title as milestone')
                             ->get();
 
-            $current_milestone = DB::table('milestones')->where('milestones.post_id', $request->post_id)
+            $current_milestone = DB::table('milestones')->where('milestones.post_id', $request->id)
                 ->leftJoin('posts', 'milestones.milestone_id', '=', 'posts.id')
                 ->select('posts.title as title', 'posts.id as milestone_id')->first();
 
