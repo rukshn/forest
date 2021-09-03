@@ -8,6 +8,7 @@ use App\Http\Controllers\Team;
 use App\Http\Controllers\Kanban;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\ComposeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,7 @@ Route::get('/tasks', [Posts::class, 'get_posts_by_tasks'])->middleware(['auth'])
 
 Route::get('/milestones', [Posts::class, 'get_posts_by_milestones'])->middleware(['auth'])->name('milestones');
 
-Route::get('/new/post', function() {
-    return view('compose');
-})->middleware(['auth'])->name('compose');
+Route::get('/new/post', [ComposeController::class, 'index'])->middleware(['auth'])->name('compose');
 
 Route::get('/new/announcement', function() {
     return view('create_announcement');
