@@ -4,7 +4,7 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-    <div class="py-6 px-8" x-init="init" x-data="kanbanApp()">
+    <div class="py-6 px-8" x-data="kanbanApp()">
         <div class="grid grid-cols-3 gap-6">
             <div class="space-y-4">
                 <h1 class="text-xl text-center font-bold">Todo</h1>
@@ -24,9 +24,12 @@
                                     <span
                                         class="bg-red-200 border-2 rounded-md border-red-300 text-red-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
+                                    <span
+                                        class="border-2 rounded-md border-transparent text-white text-sm font-bold px-1 py-1 capitalize"
+                                        :style="{ backgroundColor: '#' + task.priority_color }" x-text="priority.priority_code"></span>
                                 </div>
                                 <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
-                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="setDeadlineText(task.deadline)"></p></div>
                                     <div class="col-span-1">
                                         <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
                                     </div>
@@ -54,9 +57,12 @@
                                     <span
                                         class="bg-yellow-200 border-2 rounded-md border-yellow-300 text-yellow-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
+                                    <span
+                                        class="border-2 rounded-md border-transparent text-white text-sm font-bold px-1 py-1 capitalize"
+                                        :style="{ backgroundColor: '#' + task.priority_color }" x-text="task.priority_code"></span>
                                 </div>
                                 <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
-                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="setDeadlineText(task.deadline)"></p></div>
                                     <div class="col-span-1">
                                         <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
                                     </div>
@@ -83,9 +89,12 @@
                                     <span
                                         class="bg-green-200 border-2 rounded-md border-green-300 text-green-600 text-sm font-bold px-1 py-1"
                                         x-text="task.category_name"></span>
+                                    <span
+                                        class="border-2 rounded-md border-white text-white text-sm font-bold px-1 py-1 capitalize"
+                                        :style="{ backgroundColor: '#' + task.priority_color }" x-text="task.priority_code"></span>
                                 </div>
                                 <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
-                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="parseDate(task.date)"></p></div>
+                                    <div class="col-span-1"><p class="text-gray-400 font-light" x-text="setDeadlineText(task.deadline)"></p></div>
                                     <div class="col-span-1">
                                         <p class="text-gray-400 font-light" x-text="parseName(task.asigned_user)"></p>
                                     </div>
@@ -103,32 +112,6 @@
           </template>
     </div>
     <script>
-        function init() {
-            const vm = this
-            fetch('/endpoint/kanban/tasks', {
-                    method: 'GET',
-                    headers: {
-                        Accept: 'application/json'
-                    }
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    vm.loading = false
-                    data.forEach(task => {
-                        if (task.status_code_id == 1) {
-                            vm.todo.push(task)
-                        } else if (task.status_code_id == 2) {
-                            vm.inprogress.push(task)
-                        } else if (task.status_code_id == 3) {
-                            vm.done.push(task)
-                        }
-                    })
-                })
-                .catch((e) => {
-                  vm.notification_message = "Error loading Kanban"
-                })
-        }
-
         function bindLink(id) {
             return `/post/${id}`
         }
@@ -141,6 +124,38 @@
             done: [],
             loading: true,
             notification_message: "Loading Kanban Board",
+            init() {
+                const vm = this
+                fetch('/endpoint/kanban/tasks', {
+                        method: 'GET',
+                        headers: {
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        vm.loading = false
+                        data.forEach(task => {
+                            if (task.status_code_id == 1) {
+                                vm.todo.push(task)
+                            } else if (task.status_code_id == 2) {
+                                vm.inprogress.push(task)
+                            } else if (task.status_code_id == 3) {
+                                vm.done.push(task)
+                            }
+                        })
+                    })
+                    .catch((e) => {
+                    vm.notification_message = "Error loading Kanban"
+                    })
+            },
+            setDeadlineText(deadline) {
+                if (!deadline) {
+                    return 'No deadline'
+                } else {
+                    return deadline
+                }
+            },
             parseDate(date) {
                 // Split timestamp into [ Y, M, D, h, m, s ]
                 const t = date.split(/[- :]/)
