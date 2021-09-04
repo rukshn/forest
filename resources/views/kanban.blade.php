@@ -26,7 +26,7 @@
                                         x-text="task.category_name"></span>
                                     <span
                                         class="border-2 rounded-md border-transparent text-white text-sm font-bold px-1 py-1 capitalize"
-                                        :style="{ backgroundColor: '#' + task.priority_color }" x-text="priority.priority_code"></span>
+                                        :style="{ backgroundColor: '#' + task.priority_color }" x-text="task.priority_code"></span>
                                 </div>
                                 <div class="py-2 space-x-2 grid grid-cols-2 gap-2">
                                     <div class="col-span-1"><p class="text-gray-400 font-light" x-text="setDeadlineText(task.deadline)"></p></div>
