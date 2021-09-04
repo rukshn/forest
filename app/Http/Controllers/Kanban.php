@@ -26,12 +26,14 @@ class Kanban extends Controller
             ->leftJoin('categories', 'categories.id', '=', 'post_meta.category_id')
             ->leftJoin('asigns', 'posts.id', '=', 'asigns.post_id')
             ->leftJoin('users', 'asigns.user_id', '=', 'users.id')
-            ->select('posts.title as post_title', 'posts.id as post_id', 'posts.created_at as date',
+            ->leftJoin('priority_codes', 'posts.priority', '=', 'priority_codes.id')
+            ->select('posts.title as post_title', 'posts.id as post_id', 'posts.created_at as date', 'posts.deadline as deadline', 'posts.priority as priority',
                     'status_codes.status_name as status_code',
                     'status_codes.id as status_code_id',
                     'status_codes.color as status_color',
                     'post_status.id as post_status_id',
                     'users.name as asigned_user',
+                    'priority_codes.priority_code as priority_code', 'priority_codes.color as priority_color',
                     'categories.name as category_name', 'categories.color as category_color')
             ->get();
 
