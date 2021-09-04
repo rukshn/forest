@@ -39,7 +39,7 @@
                                     <h3 class="text-gray-500 mb-1.5">Milestone</h3>
                                     @if ($current_milestone != null)
                                     <p class="font-bold">
-                                        {{ $current_milestone->title }}
+                                       ⛳️ {{ $current_milestone->title }}
                                     </p>
                                     @else
                                     <p>
