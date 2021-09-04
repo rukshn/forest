@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-8" x-data="composeApp()">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
@@ -37,7 +37,7 @@
                                 <h3 class="font-bold text-gray-500">
                                     Category
                                 </h3>
-                                <select name="category"
+                                <select x-model="category" name="category"
                                     class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                                     <option value="1">Issue</option>
                                     <option value="2">Task</option>
@@ -64,7 +64,7 @@
                                             class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1"
                                         >
                             </div>
-                            <div>
+                            <div x-show="category != 3" x-transition>
                                 <h3 class="font-bold text-gray-500">
                                     Milestone
                                 </h3>
@@ -88,4 +88,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function composeApp() {
+            return {
+                category: 1
+            }
+        }
+    </script>
 </x-app-layout>
