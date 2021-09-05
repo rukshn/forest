@@ -15,7 +15,12 @@ class Kanban extends Controller
     //
 
     public function index(Request $request) {
-        return view('kanban');
+        $get_milestones = DB::table('post_meta')->where('category_id', 3)->where('posts.is_archived', false)
+            ->join('posts', 'posts.id', '=', 'post_meta.post_id')
+            ->select('posts.id as milestone_id', 'posts.title as milestone')
+            ->get();
+
+        return view('kanban', ['milestones' => $get_milestones]);
     }
 
     public function tasks(Request $request) {
@@ -27,12 +32,14 @@ class Kanban extends Controller
             ->leftJoin('asigns', 'posts.id', '=', 'asigns.post_id')
             ->leftJoin('users', 'asigns.user_id', '=', 'users.id')
             ->leftJoin('priority_codes', 'posts.priority', '=', 'priority_codes.id')
+            ->leftJoin('milestones', 'posts.id', '=', 'milestones.post_id')
             ->select('posts.title as post_title', 'posts.id as post_id', 'posts.created_at as date', 'posts.deadline as deadline', 'posts.priority as priority',
                     'status_codes.status_name as status_code',
                     'status_codes.id as status_code_id',
                     'status_codes.color as status_color',
                     'post_status.id as post_status_id',
                     'users.name as asigned_user',
+                    'milestones.milestone_id as milestone_id',
                     'priority_codes.priority_code as priority_code', 'priority_codes.color as priority_color',
                     'categories.name as category_name', 'categories.color as category_color')
             ->get();
