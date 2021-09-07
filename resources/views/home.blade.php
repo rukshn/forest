@@ -40,7 +40,9 @@
                             <span style="background-color: #{{$task->priority_color}}" class="block text-white text-sm font-bold py-0.5 px-3 rounded-md">
                                 {{ $task->priority_code }}
                             </span>
-                            <div></div>
+                            <span style="background-color: #{{$task->status_color}}" class="block truncate text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                                {{ $task->status_name }}
+                            </span>
                             <div></div>
                             <div class="col-span-2 lg:col-span-1 text-gray-500 text-sm"><i class="bi bi-chat mr-2"></i> {{ $task->comment_count }}</div>
                         </div>
@@ -56,15 +58,17 @@
                 <div class="grid grid-cols-3 gap-4">
                     @foreach ($issues as $issue)
                     <div class="rounded-md shadow-sm bg-white px-4 py-4">
-                        <a href="/post/{{ $task->post_id }}">
+                        <a href="/post/{{ $issue->post_id }}">
                             <h1 class="text-xl mb-2 truncate text-gray-600 font-bold hover:text-indigo-800">{{ $issue->post_title }}</h1>
                         </a>
 
                         <div class="grid grid-cols-4 gap-2 mb-2">
-                            <span style="background-color: #{{$task->priority_color}}" class="block text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                            <span style="background-color: #{{$issue->priority_color}}" class="block text-white text-sm font-bold py-0.5 px-3 rounded-md">
                                 {{ $issue->priority_code }}
                             </span>
-                            <div></div>
+                            <span style="background-color: #{{$issue->status_color}}" class="block truncate text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                                {{ $issue->status_name }}
+                            </span>
                             <div></div>
                             <div class="col-span-2 lg:col-span-1 text-gray-500 text-sm"><i class="bi bi-chat mr-2"></i> {{ $issue->comment_count }}</div>
                         </div>
