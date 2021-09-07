@@ -51,6 +51,11 @@ class Posts extends Controller
             $post_meta->category_id = $request->category;
             $post_meta->save();
 
+            $post_status = new PostStatusModel;
+            $post_status->post_id = $new_post->id;
+            $post_status->status_id = 1;
+            $post_status->save();
+
             return redirect()->route('post', ['id' => $new_post->id]);
         }
     }
