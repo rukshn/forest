@@ -27,7 +27,7 @@ class HomeController extends Controller
                 'users.name as user_name', 'users.id as user_id',
                 'priority_codes.priority_code as priority_code', 'priority_codes.color as priority_color',
                 DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
-        ->limit(18)
+        ->limit(12)
         ->orderByDesc('posts.id')
         ->get();
 
@@ -46,7 +46,7 @@ class HomeController extends Controller
                 'users.name as user_name', 'users.id as user_id',
                 'priority_codes.priority_code as priority_code', 'priority_codes.color as priority_color',
                 DB::raw('(select count(*) from comments where comments.post_id = posts.id) as comment_count'))
-        ->limit(18)
+        ->limit(12)
         ->orderByDesc('posts.id')
         ->get();
 
