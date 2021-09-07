@@ -9,6 +9,7 @@ use App\Http\Controllers\Kanban;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ComposeController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,6 @@ use App\Http\Controllers\ComposeController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/dashboard', [Posts::class, 'get_feed'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/issues', [Posts::class, 'get_posts_by_issues'])->middleware(['auth'])->name('issues');
 
@@ -90,6 +89,8 @@ Route::post('/endpoint/post/set_deadline', [Posts::class, 'set_deadline'])->midd
 Route::post('/endpoint/post/change_priority', [Posts::class, 'change_priority'])->middleware(['auth']);
 
 Route::post('/endpoint/post/set_milestone', [Posts::class, 'set_milestone'])->middleware(['auth']);
+
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
 
