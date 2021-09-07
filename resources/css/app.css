@@ -25,6 +25,20 @@
     @apply left-8;
 }
 
+.content ol {
+    @apply list-decimal;
+    @apply relative;
+    @apply left-8;
+}
+
 .content p:not(:last-of-type) {
     @apply mb-2;
+}
+
+.content p {
+    @apply leading-normal;
+}
+
+.content a {
+    @apply text-blue-700;
 }
