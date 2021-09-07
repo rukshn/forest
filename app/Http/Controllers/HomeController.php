@@ -66,7 +66,7 @@ class HomeController extends Controller
         return view('home', [
             'milestones' => $get_milestones,
             'has_announcement' => $has_announcement,
-            'get_announcement' => $get_announcement,
+            'announcement' => $get_announcement,
             'tasks' => $tasks,
             'issues' => $issues
         ]);
