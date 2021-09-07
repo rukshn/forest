@@ -92,5 +92,7 @@ Route::post('/endpoint/post/set_milestone', [Posts::class, 'set_milestone'])->mi
 
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
+Route::get('/feed', [Posts::class, 'get_feed'])->middleware(['auth'])->name('feed');
+
 require __DIR__.'/auth.php';
 
