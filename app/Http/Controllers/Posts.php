@@ -205,8 +205,7 @@ class Posts extends Controller
         } else {
             $has_announcement = false;
         }
-        // return json_encode($annoucement);
-        return view('dashboard',
+        return view('feed',
             [
                 'feed' => $feed_posts,
                 'has_announcement'=> $has_announcement,
