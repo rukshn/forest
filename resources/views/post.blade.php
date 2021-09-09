@@ -33,7 +33,7 @@
                             <div class="content px-3 py-4" x-ref="postContent"
                                 x-html='parseMarkdown(@json($post->post_content))'></div>
                         </div>
-                        <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-3 flex lg:block">
+                        <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-5 flex lg:block">
                             @if ($post->category_id != 3)
                                 <div class="space-y-1">
                                     <h3 class="text-gray-500 mb-1.5">Milestone</h3>
@@ -69,8 +69,11 @@
                                 <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
                                     style="background-color: #{{$post->status_color}}">{{ $post->status_name }}</span>
                             </div>
-                            <div class="space-y-3">
+                            <div class="space-y-1.5">
                                 <h3 class="text-gray-500 mb-1.5">Assigned to</h3>
+                                @if (count($asigns) == 0)
+                                    <h3 class="text-red-800">Unassigned</h3>
+                                @endif
                                 @foreach ($asigns as $asign)
                                 <span id="as-user-{{ $loop->index }}"
                                     class="group rounded-md bg-gray-200 truncate text-gray-600 px-2 py-1 mr-2">
@@ -83,6 +86,21 @@
                                 </span>
                                 @endforeach
                             </div>
+                            @if ($post->status_id == 3)
+                            <div class="space-y-2">
+                                <h3 class="text-gray-500">Review</h3>
+                                @if ($post->testing_state == null)
+                                    <form action="/endpoint/review/request_review" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="post_id" value="{{ $post->post_id }}">
+                                        <button class="rounded-md py-1 px-2 bg-indigo-100 text-indigo-500 hover:text-indigo-600 hover:bg-indigo-200 text-sm font-bold">Request review</button>
+                                    </form>
+                                @else
+                                <span class="rounded-lg py-1 px-2 text-white font-bold text-sm"
+                                    style="background-color: #{{$post->testing_state_color}}">{{ $post->testing_state_name }}</span>
+                                @endif
+                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -116,7 +134,7 @@
                                     @csrf
                                     <input type="hidden" name="post_id" value="{{ $post->post_id }}">
                                     <div class="py-3">
-                                        <h3 class="font-bold text-gray-500">Assign user</h3>
+                                        <h3 class="font-bold text-gray-500">Assign reviewer</h3>
                                         <select name="user_id"
                                             class="w-auto h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                                             @foreach ($users as $user)
