@@ -78,6 +78,34 @@
                     @endforeach
                 </div>
             </div>
+
+            <div>
+                <h1 class="text-gray-500 mb-3 font-bold text-xl">Latest Review Requests</h1>
+                <div class="grid grid-cols-3 gap-4">
+                   @foreach ($reviews as $review)
+                    <div class="rounded-md shadow-sm bg-white px-4 py-4">
+                            <a href="/review/{{ $review->post_id }}">
+                                <h1 class="text-xl mb-2 truncate text-gray-600 font-bold hover:text-indigo-800">{{ $review->post_title }}</h1>
+                            </a>
+
+                            <div class="grid grid-cols-4 gap-2 mb-2">
+                                <span style="background-color: #{{$review->priority_color}}" class="block text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                                    {{ $review->priority_code }}
+                                </span>
+                                <span style="background-color: #{{$review->status_color}}" class="block truncate text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                                    {{ $review->status_name }}
+                                </span>
+                                <span style="background-color: #{{$review->testing_state_color}}" class="block truncate text-white text-sm font-bold py-0.5 px-3 rounded-md">
+                                    {{ $review->testing_state_name }}
+                                </span>
+                                <div class="col-span-2 lg:col-span-1 text-gray-500 text-sm"><i class="bi bi-chat mr-2"></i> {{ $review->comment_count }}</div>
+                            </div>
+
+                            <p class="text-gray-500 text-sm">By {{ $review->user_name }} on <span x-text="parseDate('{{ $review->post_date }}')"></span></p>
+                        </div>
+                   @endforeach
+                </div>
+            </div>
         </div>
     </div>
 
