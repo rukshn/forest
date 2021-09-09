@@ -10,7 +10,7 @@ use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ComposeController;
 use App\Http\Controllers\HomeController;
-
+use App\Http\Controllers\QaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,6 +93,14 @@ Route::post('/endpoint/post/set_milestone', [Posts::class, 'set_milestone'])->mi
 Route::get('/dashboard', [HomeController::class, 'index'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/feed', [Posts::class, 'get_feed'])->middleware(['auth'])->name('feed');
+
+Route::post('/endpoint/review/request_review', [QaController::class, 'request_review'])->middleware(['auth']);
+
+Route::post('/endpoint/review/assign_user', [QaController::class, 'assign_user'])->middleware(['auth']);
+
+Route::get('/review/{id}', [QaController::class, 'get_post_for_review'])->middleware(['auth']);
+
+Route::post('/endpoint/review/complete', [QaController::class, 'complete_review'])->middleware(['auth']);
 
 require __DIR__.'/auth.php';
 
