@@ -12,6 +12,7 @@ use App\Models\AsignModel;
 use App\Models\NotificationsModel;
 use App\Models\AnnouncementModel;
 use App\Models\MilestoneModel;
+use App\Models\QaTestModel;
 
 class Posts extends Controller
 {
@@ -67,6 +68,8 @@ class Posts extends Controller
             ->leftJoin('priority_codes', 'posts.priority', '=', 'priority_codes.id')
             ->leftJoin('status_codes', 'post_status.status_id', '=', 'status_codes.id')
             ->leftJoin('milestones', 'milestones.post_id', '=', 'posts.id')
+            ->leftJoin('qatests', 'posts.id', '=', 'qatests.post_id')
+            ->leftJoin('testingstates', 'qatests.testing_state', '=', 'testingstates.id')
             ->join('categories', 'post_meta.category_id', '=', 'categories.id')
             ->join('users', 'users.id', '=', 'posts.created_by')
             ->select('post_meta.category_id',
@@ -74,6 +77,9 @@ class Posts extends Controller
                 'milestones.milestone_id as milestone',
                 'milestones.id as milestone_id',
                 'posts.deadline as deadline',
+                'qatests.testing_state as testing_state',
+                'testingstates.status_name as testing_state_name',
+                'testingstates.color as testing_state_color',
                 'priority_codes.priority_code as priority', 'priority_codes.color as priority_color',
                 'status_codes.status_name as status_name', 'status_codes.color as status_color',
                 'categories.name as category_name', 'categories.slug as category_slug', 'categories.color as category_color', 'categories.id as category_id',
