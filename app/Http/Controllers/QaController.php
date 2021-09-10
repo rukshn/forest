@@ -93,8 +93,10 @@ class QaController extends Controller
                     ->select('asigns.user_id')
                     ->get();
 
-                if (in_array($request->user_id, $get_post_assigned_users)) {
-                    return redirect()->back()->with('message', 'You cannot assign yourself as a reviewer');
+                for ($i=0; $i <= count($get_post_assigned_users)-1 ; $i++) {
+                    if ($get_post_assigned_users[i]->user_id == $request->user_id) {
+                        return redirect()->back()->with('message', 'You cannot assign yourself as a reviewer');
+                    }
                 }
 
                 $find_task->assigned_user = $request->user_id;
