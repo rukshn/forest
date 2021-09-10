@@ -88,11 +88,12 @@ class QaController extends Controller
             $find_task = QaTestModel::where('post_id', $request->post_id)->first();
             if ($find_task !== null ) {
 
-                $get_post = DB::table('posts')->where('posts.id', $request->post_id)
-                    ->select('posts.created_by')
-                    ->first();
+                $get_post_assigned_users = DB::table('posts')->where('posts.id', $request->post_id)
+                    ->leftJoin('asigns', 'posts.id', '=', 'asigns.user_id')
+                    ->select('asigns.user_id')
+                    ->get();
 
-                if ($get_post->created_by == $request->user_id) {
+                if (in_array($request->user_id, $get_post_assigned_users)) {
                     return redirect()->back()->with('message', 'You cannot assign yourself as a reviewer');
                 }
 
