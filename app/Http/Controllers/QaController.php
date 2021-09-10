@@ -94,7 +94,7 @@ class QaController extends Controller
                     ->get();
 
                 for ($i=0; $i <= count($get_post_assigned_users)-1 ; $i++) {
-                    if ($get_post_assigned_users[i]->user_id == $request->user_id) {
+                    if ($get_post_assigned_users[$i]->user_id == $request->user_id) {
                         return redirect()->back()->with('message', 'You cannot assign yourself as a reviewer');
                     }
                 }
