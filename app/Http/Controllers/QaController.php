@@ -167,8 +167,6 @@ class QaController extends Controller
                         ->leftJoin('asigns', 'posts.id', '=', 'asigns.post_id')
                         ->select('asigns.user_id as assigned_user', 'posts.id as post_id')->get();
 
-                        return json_encode($get_post_assigned_users);
-
                     for ($i=0; $i <= count($get_post_assigned_users)-1 ; $i++) {
                         $notification = new NotificationsModel();
                         $notification->to_user_id = $get_post_assigned_users[$i]->assigned_user;
