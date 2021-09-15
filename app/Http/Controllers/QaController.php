@@ -91,7 +91,7 @@ class QaController extends Controller
             if($review->get() == null) {
                 return abort('404');
             } else {
-                if ($review->testing_state !== 1) {
+                if ($review->testing_state != 1) {
                     return redirect()->back()->with('message', 'Review must be passed to archieve');
                 }
                 if ($review->is_archieved == true) {
