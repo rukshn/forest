@@ -164,14 +164,16 @@ class QaController extends Controller
                     $find_task->save();
 
                     $get_post_assigned_users = DB::table('posts')->where('posts.id', $find_task->post_id)
-                        ->leftJoin('asigns', 'posts.id', '=', 'asigns.user_id')
+                        ->leftJoin('asigns', 'posts.id', '=', 'asigns.post_id')
                         ->select('asigns.user_id as assigned_user', 'posts.id as post_id')->get();
+
+                        return json_encode($get_post_assigned_users);
 
                     for ($i=0; $i <= count($get_post_assigned_users)-1 ; $i++) {
                         $notification = new NotificationsModel();
                         $notification->to_user_id = $get_post_assigned_users[$i]->assigned_user;
                         $notification->from_user_id = Auth()->user()->id;
-                        $notification->post_id = $get_post_assigned_users->post_id;
+                        $notification->post_id = $find_task->post_id;
                         $notification->notification_type = 'task';
 
                     }
