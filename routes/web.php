@@ -102,5 +102,8 @@ Route::get('/review/{id}', [QaController::class, 'get_post_for_review'])->middle
 
 Route::post('/endpoint/review/complete', [QaController::class, 'complete_review'])->middleware(['auth']);
 
+Route::post('/endpoint/review/archive', [QaController::class, 'archieve_review'])->middleware(['auth']);
+
+Route::post('/endpoint/testcase/create', [QaController::class, 'create_test_case'])->middleware(['auth']);
 require __DIR__.'/auth.php';
 
