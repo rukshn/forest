@@ -48,6 +48,9 @@ class QaController extends Controller
             ->leftJoin('qatests', 'posts.id', '=', 'qatests.post_id')
             ->leftJoin('testingstates', 'qatests.testing_state', '=', 'testingstates.id')
             ->select(
+                'qatests.id as review_id',
+                'qatests.test_cases as test_content',
+                'qatests.is_archieved as is_archieved',
                 'posts.id as post_id',
                 'posts.title as post_title',
                 'posts.post as post_content',
@@ -73,6 +76,36 @@ class QaController extends Controller
         }
     }
 
+    public function archieve_review(Request $request) {
+        $rules = [
+            'review_id' => 'numeric|required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('message', 'Failed to archieve review');
+        } else {
+            $review = QaTestModel::find($request->review_id);
+
+            if($review->get() == null) {
+                return abort('404');
+            } else {
+                if ($review->testing_state !== 1) {
+                    return redirect()->back()->with('message', 'Review must be passed to archieve');
+                }
+                if ($review->is_archieved == true) {
+                    $review->is_archieved = false;
+                    $review->save();
+                    return redirect()->back()->with('message', 'Review un-archieved');
+                } else {
+                    $review->is_archieved = true;
+                    $review->save();
+                    return redirect()->back()->with('message', 'Review archieved');
+                }
+            }
+        }
+    }
 
     public function assign_user(Request $request) {
         $rules = [
@@ -130,14 +163,18 @@ class QaController extends Controller
                     $find_task->testing_state = $request->status;
                     $find_task->save();
 
-                    $get_post = DB::table('posts')->where('posts.id', $find_task->post_id)
-                        ->select('posts.created_by', 'posts.id')->first();
+                    $get_post_assigned_users = DB::table('posts')->where('posts.id', $find_task->post_id)
+                        ->leftJoin('asigns', 'posts.id', '=', 'asigns.user_id')
+                        ->select('asigns.user_id as assigned_user', 'posts.id as post_id')->get();
 
-                    $notification = new NotificationsModel();
-                    $notification->to_user_id = $get_post->created_by;
-                    $notification->from_user_id = Auth()->user()->id;
-                    $notification->post_id = $get_post->id;
-                    $notification->notification_type = 'task';
+                    for ($i=0; $i <= count($get_post_assigned_users)-1 ; $i++) {
+                        $notification = new NotificationsModel();
+                        $notification->to_user_id = $get_post_assigned_users[$i]->assigned_user;
+                        $notification->from_user_id = Auth()->user()->id;
+                        $notification->post_id = $get_post->post_id;
+                        $notification->notification_type = 'task';
+
+                    }
 
                     if ($request->status == 1) {
                         $notification->message = "Your task passed the review";
@@ -150,6 +187,28 @@ class QaController extends Controller
                 }
             } else {
                 return redirect()->back()->with('message', 'Task not under active review');
+            }
+        }
+    }
+
+    public function create_test_case(Request $request) {
+        $rules = [
+            'review_id' => 'numeric|required',
+            'testCase' => 'required'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return redirect()->back()->with('message', 'Creating testcase failed');
+        } else {
+            $find_task = QaTestModel::find($request->review_id);
+            if ($find_task->get() == null) {
+                return abort(404);
+            } else {
+                $find_task->test_cases = $request->testCase;
+                $find_task->save();
+                return redirect()->back()->with('message', 'Testcase saved');
             }
         }
     }
