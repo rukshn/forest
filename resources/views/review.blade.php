@@ -17,15 +17,50 @@
 
                     <div class="grid grid-cols-10 gap-3">
                         <div class="col-span-8">
-                            <h1 class="text-3xl font-bold">
-                                {{ $post->post_title }}
-                            </h1>
+                            <div class="flex group space-x-2">
+                                <h1 class="text-3xl font-bold">
+                                    @if($post->is_archieved == true)
+                                        [Archieved]
+                                    @endif
+                                    {{ $post->post_title }}
+                                </h1>
+                                <form action="/endpoint/review/archive" method="post">
+                                    @csrf
+                                    <input type="hidden" name="review_id" value="{{$post->review_id}}">
+                                    <button type="submit" title="Archive review"
+                                        class="rounded-md align-sub opacity-0 group-hover:opacity-40 hover:opacity-100 px-1 text-sm py-1 hover:text-gray-700 bg-gray-300 text-gray-500">
+                                        <i class="bi bi-archive-fill"></i>
+                                    </button>
+                                </form>
+
+                            </div>
                             <h2 class="text-xl text-gray-500 capitalize">
                                 Please review task <a class="text-blue-500 hover:text-blue-600" href="/post/{{ $post->post_id }}">#{{ $post->post_id }}</a>
                             </h2>
-                            <h3 class="text-lg text-gray-600 font-semibold">Requirements</h3>
+                            <h3 class="text-lg text-gray-600 font-bold">Requirements</h3>
                             <div class="content px-3 py-4" x-ref="postContent"
-                                x-html='parseMarkdown(@json($post->post_content))''></div>
+                                x-html='parseMarkdown(@json($post->post_content))'></div>
+                            <div x-ref="testcontnet" x-show="!editTestContent" x-transition>
+                                <h3 class="text-lg text-gray-600 font-bold">Test case</h3>
+                                <div class="content px-3 py-4"
+                                    x-html='parseMarkdown(@json($post->test_content))' x-transition></div>
+                            </div>
+                            <div x-ref="testcontnetEditor" x-show="editTestContent" x-transition>
+                                <div class="py-3">
+                                    <form method="post" action="/endpoint/testcase/create">
+                                        @csrf
+                                        <input type="hidden" name="review_id" value="{{$post->review_id}}">
+                                        <label for="testCase" class="text-lg text-gray-600 font-semi-bold">Write your test case</label>
+                                        <x-textarea rows="8" class="w-full mt-2" name="testCase" placeholder="Use markdown to format your text" />
+                                        <div class="buttons mt-2">
+                                            <x-button>
+                                                {{__('Post')}}
+                                            </x-button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="col-span-2 space-y-5">
                             <div>
@@ -75,6 +110,9 @@
                             <button
                                 class="rounded-md px-2 py-0.5 bg-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-400 font-bold"
                                 @click="open = ! open">Options</button>
+                            <button
+                                class="rounded-md px-2 py-0.5 bg-gray-200 text-gray-400 hover:text-gray-600 hover:bg-gray-400 font-bold"
+                                @click="editTestContent = ! editTestContent">Edit Test Cases</button>
                         </div>
                         <div class="flex space-x-6" x-show="open" x-transition>
                             <div class="flex-initial">
@@ -129,6 +167,7 @@
         function reviewApp() {
             return {
                 content: '',
+                editTestContent: false,
                 open: false,
                 parseMarkdown(inputMarkdown) {
                     const markdown = inputMarkdown
@@ -139,4 +178,9 @@
             }
         }
     </script>
+    <style>
+        .align-sub {
+            vertical-align: sub;
+        }
+    </style>
 </x-app-layout>
