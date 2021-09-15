@@ -171,7 +171,7 @@ class QaController extends Controller
                         $notification = new NotificationsModel();
                         $notification->to_user_id = $get_post_assigned_users[$i]->assigned_user;
                         $notification->from_user_id = Auth()->user()->id;
-                        $notification->post_id = $get_post->post_id;
+                        $notification->post_id = $get_post_assigned_users->post_id;
                         $notification->notification_type = 'task';
 
                     }
