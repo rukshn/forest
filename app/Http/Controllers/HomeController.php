@@ -50,7 +50,7 @@ class HomeController extends Controller
         ->orderByDesc('posts.id')
         ->get();
 
-        $reviews = DB::table('qatests')
+        $reviews = DB::table('qatests')->where('is_archieved', false)
             ->join('posts', 'qatests.post_id', '=', 'posts.id')
             ->join('post_meta', 'posts.id', '=', 'post_meta.post_id')
             ->leftJoin('testingstates', 'qatests.testing_state', '=', 'testingstates.id')
