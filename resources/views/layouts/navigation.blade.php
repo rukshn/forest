@@ -30,7 +30,7 @@
                     <x-nav-link :href="route('profile')" :active="request()->routeIs('profile')">
                         {{ __('🧑‍💻 My Profile') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('compose')" :active="request()->routeIs('compose')">
+                    <x-nav-link :href="route('feed')" :active="request()->routeIs('feed')">
                         {{ __('✍️ New Post') }}
                     </x-nav-link>
                     <x-nav-link :href="route('notifications')" :active="request()->routeIs('notifications')" class="text-blue-600">
