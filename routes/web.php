@@ -11,6 +11,8 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ComposeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QaController;
+use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -105,5 +107,22 @@ Route::post('/endpoint/review/complete', [QaController::class, 'complete_review'
 Route::post('/endpoint/review/archive', [QaController::class, 'archieve_review'])->middleware(['auth']);
 
 Route::post('/endpoint/testcase/create', [QaController::class, 'create_test_case'])->middleware(['auth']);
+
+Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth']);
+
+// Route::get('/admin/categories', [AdminController::class, 'categories'])->middleware(['auth']);
+
+// Route::post('/endpoint/admin/create_category', [AdminController::class, 'create_category'])->middleware(['auth']);
+
+// Route::post('/endpoint/admin/edit_category', [AdminController::class, 'edit_category'])->middleware(['auth']);
+
+// Route::post('/endpoint/admin/delete_category', [AdminController::class, 'delete_category'])->middleware(['auth']);
+
+// Route::get('/profile', [UserController::class, 'profile'])->middleware(['auth']);
+
+// Route::post('/endpoint/profile/edit_profile', [UserController::class, 'edit_profile'])->middleware(['auth']);
+
+Route::get('/feed', [HomeController::class, 'feed'])->middleware(['auth']);
+
 require __DIR__.'/auth.php';
 
