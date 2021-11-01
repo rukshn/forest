@@ -15,7 +15,7 @@
                     </x-message>
                     @endif
                     <div class="lg:grid lg:grid-cols-12 lg:gap-4">
-                        <div class="py-2 space-y-1 col-span-9">
+                        <div class="py-2 space-y-1 col-span-9 flex flex-col">
                             <div class="flex group space-x-2">
                                 <h1 class="text-3xl flex-grow-0 font-bold">@if ($post->is_archived == true) [Archived]
                                     @endif {{ $post->post_title }}</h1>
@@ -30,8 +30,21 @@
                             </div>
                             <p class="text-sm font-light text-gray-500">{{ $post->user_name }} {{ $post->created_at}}
                             </p>
-                            <div class="content px-3 py-4" x-ref="postContent"
-                                x-html='parseMarkdown(@json($post->post_content))'></div>
+                            <div class="content px-3 py-4 flex-grow" x-ref="postContent"
+                                x-html='parseMarkdown(@json($post->post_content))'>
+                            </div>
+                            @if(count($attachments) > 0)
+                            <div class="px-3 py-4 bg-blue-50 rounded-md">
+                                <h4 class="text-gray-700 text-lg font-bold">Attachments</h4>
+                                <ul class="mt-2 space-y-2">
+                                    @foreach ($attachments as $attachment)
+                                        <li>
+                                            <a class="text-gray-600 font-bold" href="/storage/attachments/{{$attachment->uuid}}.{{$attachment->extension}}" target="_blank"><i class="bi bi-file-earmark-fill"></i> {{$attachment->filename}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                         </div>
                         <div class="col-span-3 sm:space-x-4 lg:space-x-0 lg:space-y-5 flex lg:block">
                             @if ($post->category_id != 3)
