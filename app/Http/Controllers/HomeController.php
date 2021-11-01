@@ -95,4 +95,8 @@ class HomeController extends Controller
             'reviews' => $reviews
         ]);
     }
+
+    public function feed() {
+        return view('feed');
+    }
 }
