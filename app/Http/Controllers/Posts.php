@@ -13,6 +13,7 @@ use App\Models\NotificationsModel;
 use App\Models\AnnouncementModel;
 use App\Models\MilestoneModel;
 use App\Models\QaTestModel;
+use App\Models\AttachmentModel;
 
 class Posts extends Controller
 {
@@ -57,7 +58,24 @@ class Posts extends Controller
             $post_status->status_id = 1;
             $post_status->save();
 
-            return redirect()->route('post', ['id' => $new_post->id]);
+            if ($request->attachments) {
+                forEach($request->attachments as $attachment) {
+                    $uuid = uniqid();
+                    $fileName = time() . '-' . $uuid;
+                    $ext = $attachment->getClientOriginalExtension();
+                    $attachmentModel = new AttachmentModel();
+                    $attachmentModel->filename = $attachment->getClientOriginalName();
+                    $attachmentModel->post_id = $new_post->id;
+                    $attachmentModel->user_id = $user_id;
+                    $attachmentModel->uuid = $fileName;
+                    $attachmentModel->extension = $ext;
+                    $attachment->storeAs('attachments', $fileName . '.' . $ext, 'public');
+                    $attachmentModel->save();
+                }
+            }
+
+            $output = array('status' => 200, 'post_id' => $new_post->id);
+            return json_encode($output);
         }
     }
 
@@ -112,13 +130,17 @@ class Posts extends Controller
                 ->join('users', 'asigns.user_id', '=', 'users.id')
                 ->select('users.name as user_name', 'users.id as user_id')->get();
 
+            $get_attachments = DB::table('attachments')->where('post_id', $request->id)
+                ->select('uuid', 'extension', 'filename')->get();
+
             return view('post', [
                 'post' => $get_post,
                 'comments'=> $get_comments,
                 'users' => $get_users,
                 'asigns' => $get_assigns,
                 'milestones' => $get_milestones,
-                'current_milestone' => $current_milestone
+                'current_milestone' => $current_milestone,
+                'attachments' => $get_attachments
             ]);
         }
 
