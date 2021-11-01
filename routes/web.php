@@ -122,7 +122,7 @@ Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth']);
 
 // Route::post('/endpoint/profile/edit_profile', [UserController::class, 'edit_profile'])->middleware(['auth']);
 
-Route::get('/feed', [HomeController::class, 'feed'])->middleware(['auth']);
+Route::get('/feed', [HomeController::class, 'feed'])->middleware(['auth'])->name('feed');
 
 require __DIR__.'/auth.php';
 
