@@ -117,7 +117,7 @@
                     const t = date.split(/[- :]/)
                     // Apply each element to the Date function
                     const d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]))
-                    const month = ("0" + d.getMonth()).slice(-2)
+                    const month = ("0" + (parseInt(d.getMonth()) + 1)).slice(-2)
                     const year = d.getFullYear()
                     const day = ("0" + d.getDate()).slice(-2)
                     return `${day}-${month}-${year}`
