@@ -15,9 +15,9 @@
                 </h3>
                 <select x-model="category" name="category"
                     class="w-full border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
-                    <option value="1">Issue</option>
-                    <option value="2">Task</option>
-                    <option value="3">Milestone</option>
+                    @foreach ($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
                 </select>
             </div>
             <div>
@@ -46,7 +46,7 @@
                     class="w-full h-10 border-gray-400 rounded-md focus:ring-opacity-50 focus:ring-indigo-300 mt-1">
                     <option disabled selected value="0">Select milestone</option>
                     @foreach ($milestones as $milestone)
-                    <option value="{{ $milestone->milestone_id }}">{{ $milestone->milestone }}</option>
+                        <option value="{{ $milestone->milestone_id }}">{{ $milestone->milestone }}</option>
                     @endforeach
                 </select>
             </div>
