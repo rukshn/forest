@@ -7,8 +7,8 @@
         <div class="min-w-0 px-4 w-full flex-auto lg:static lg:max-h-full lg:overflow-visible">
           <x-composer-component></x-composer-component>
         </div>
-        <x-rightsidebar>
-        </x-rightsidebar>
+        <x-right-sidebar>
+        </x-right-sidebar>
       </div>
     </div>
   </div>
