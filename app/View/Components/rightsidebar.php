@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class rightsidebar extends Component
+class RightSidebar extends Component
 {
     /**
      * Create a new component instance.
