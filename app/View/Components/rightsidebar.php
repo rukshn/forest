@@ -23,6 +23,6 @@ class RightSidebar extends Component
      */
     public function render()
     {
-        return view('components.rightsidebar');
+        return view('components.right-sidebar');
     }
 }

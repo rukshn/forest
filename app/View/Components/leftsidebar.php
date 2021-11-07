@@ -4,7 +4,6 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\DB;
-
 class LeftSidebar extends Component
 {
     /**
@@ -12,7 +11,6 @@ class LeftSidebar extends Component
      *
      * @return void
      */
-
     public $categories;
     public function __construct()
     {
@@ -27,6 +25,6 @@ class LeftSidebar extends Component
      */
     public function render()
     {
-        return view('components.leftsidebar');
+        return view('components.left-sidebar');
     }
 }
