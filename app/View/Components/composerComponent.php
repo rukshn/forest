@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\Support\Facades\DB;
 
-class composerComponent extends Component
+class ComposerComponent extends Component
 {
     /**
      * Create a new component instance.
