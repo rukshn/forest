@@ -118,4 +118,25 @@ class Kanban extends Controller
         }
 
     }
+
+    public function archieveTask(Request $request) {
+        $rules = [
+            'post_id' => 'required|numeric'
+        ];
+
+        $validate = Validator::make($request->all(), $rules);
+
+        if ($validate->fails()) {
+            return json_encode("invalid request");
+        } else {
+            $post = PostModel::find(index);
+            $post->is_archieved = true;
+            $post->save();
+            $output = [
+                'status' => 200,
+                'message' => 'post archieved'
+            ];
+            return json_encode($output);
+        }
+    }
 }

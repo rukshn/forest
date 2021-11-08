@@ -76,6 +76,8 @@ Route::post('/endpoint/kanban/beginTask', [Kanban::class, 'beginTask'])->middlew
 
 Route::post('/endpoint/kanban/completeTask', [Kanban::class, 'completeTask'])->middleware(['auth']);
 
+Route::post('/endpoint/kanban/archieveTask', [Kanbab::class, 'archieveTask'])->middleware(['auth']);
+
 Route::get('/notifications', [NotificationsController::class, 'get_all_notifications'])->middleware(['auth'])->name('notifications');
 
 Route::post('/endpoint/notification/read', [NotificationsController::class, 'read_notification'])->middleware(['auth']);
@@ -112,11 +114,11 @@ Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth']);
 
 // Route::get('/admin/categories', [AdminController::class, 'categories'])->middleware(['auth']);
 
-// Route::post('/endpoint/admin/create_category', [AdminController::class, 'create_category'])->middleware(['auth']);
+Route::post('/endpoint/admin/create_category', [AdminController::class, 'create_category'])->middleware(['auth']);
 
 // Route::post('/endpoint/admin/edit_category', [AdminController::class, 'edit_category'])->middleware(['auth']);
 
-// Route::post('/endpoint/admin/delete_category', [AdminController::class, 'delete_category'])->middleware(['auth']);
+Route::post('/endpoint/admin/delete_category', [AdminController::class, 'delete_category'])->middleware(['auth']);
 
 // Route::get('/profile', [UserController::class, 'profile'])->middleware(['auth']);
 

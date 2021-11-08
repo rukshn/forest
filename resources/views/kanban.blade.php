@@ -101,7 +101,7 @@
                         <div class="rounded-md shadow-md px-6 py-4 bg-white">
                             <div class="grid grid-cols-8">
                                 <div class="col-span-1">
-                                    <button class="bg-green-700 text-white rounded-md px-2 py-1">
+                                    <button @click="archieveTask(task.post_id, index)" class="bg-green-700 hover:bg-blue-700 text-white rounded-md px-2 py-1">
                                         <i class="bi bi-check-circle-fill"></i>
                                     </button>
                                 </div>
@@ -295,6 +295,26 @@
                 console.log(data)
               })
             },
+            archieveTask(item, index) {
+                const task = this.done[index]
+                this.done.splice(index,1)
+
+                fetch('/endpoint/kanban/archieveTask', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json',
+                        'accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        post_id: item
+                    })
+                    .then((response) => response.json())
+                    .catch((e) => {
+                        console.log(e)
+                    })
+                })
+            }
           }
         }
 
