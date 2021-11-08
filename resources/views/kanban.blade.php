@@ -309,10 +309,10 @@
                     body: JSON.stringify({
                         post_id: item
                     })
-                    .then((response) => response.json())
-                    .catch((e) => {
-                        console.log(e)
-                    })
+                })
+                .then((response) => response.json())
+                .catch((e) => {
+                    console.log(e)
                 })
             }
           }
