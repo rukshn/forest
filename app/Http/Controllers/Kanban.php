@@ -130,7 +130,7 @@ class Kanban extends Controller
             return json_encode("invalid request");
         } else {
             $post = PostModel::find($request->post_id);
-            $post->is_archieved = true;
+            $post->is_archived = true;
             $post->save();
             $output = [
                 'status' => 200,
