@@ -76,7 +76,7 @@ Route::post('/endpoint/kanban/beginTask', [Kanban::class, 'beginTask'])->middlew
 
 Route::post('/endpoint/kanban/completeTask', [Kanban::class, 'completeTask'])->middleware(['auth']);
 
-Route::post('/endpoint/kanban/archieveTask', [Kanbab::class, 'archieveTask'])->middleware(['auth']);
+Route::post('/endpoint/kanban/archieveTask', [Kanban::class, 'archieveTask'])->middleware(['auth']);
 
 Route::get('/notifications', [NotificationsController::class, 'get_all_notifications'])->middleware(['auth'])->name('notifications');
 
