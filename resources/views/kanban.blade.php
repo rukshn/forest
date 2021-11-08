@@ -97,7 +97,7 @@
                 </div>
                 <div class="space-y-4">
                     <h1 class="text-xl text-center font-bold">Completed</h1>
-                    <template x-for="task in filteredDone">
+                    <template x-for="(task, index) in filteredDone">
                         <div class="rounded-md shadow-md px-6 py-4 bg-white">
                             <div class="grid grid-cols-8">
                                 <div class="col-span-1">
