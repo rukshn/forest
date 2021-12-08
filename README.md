@@ -14,6 +14,10 @@ Forest is based or the Laravel PHP framework. Laravel was used because of easy h
 * Announcements
 * Track your teams progress and work they have done
 
+## Screenshot
+
+<img src="https://i.imgur.com/PXgYapg.png" />
+
 It's still under development and lot of bugs to be fixed and improvements to be done.
 
 Even though we used it for the development of NCHIS, I don't think it's production ready.
