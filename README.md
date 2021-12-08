@@ -10,7 +10,9 @@ Forest is based or the Laravel PHP framework. Laravel was used because of easy h
 * Simple user interface
 * Create posts and comments using **markdown** 
 * Kanban board
-* Comments
+* Issue tracker
+* Task allocation
+* Reviews
 * Announcements
 * Track your teams progress and work they have done
 
