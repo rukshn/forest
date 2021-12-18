@@ -34,7 +34,8 @@ Feel free to contribute. Any help is welcomed.
 
 ### Connect MySQL your database
 * First rename `.envexample` to `.env`
-* Change the environment variables to store your *mysql* connection details
+* Change the environment variables to store your *mysql* connection details, by providing the database name, username, password.
+* Run **php artisan migrate** this will automatically create the tables in the selected database.
 
 ### Run
 `$ php arisan serve`
